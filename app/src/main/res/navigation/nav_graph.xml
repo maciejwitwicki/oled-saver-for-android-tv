@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.FirstFragment"
+        android:name="com.example.myapplication.MaskingFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/masking_fragment">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
