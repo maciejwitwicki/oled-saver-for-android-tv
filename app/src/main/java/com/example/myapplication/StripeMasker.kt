@@ -31,7 +31,6 @@ class StripeMasker  {
 
             image.translationX = translation
             image2.translationX = translation2
-            println("translation1 $progress, transltation2 $translation2, width: $width")
 
         }
         animator.start()
