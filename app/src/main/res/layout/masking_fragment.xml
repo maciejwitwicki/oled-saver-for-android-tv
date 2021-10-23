@@ -92,7 +92,7 @@
     <FrameLayout
         android:id="@+id/thinStripeMasker"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_marginStart="200dp"
         android:layout_marginEnd="75dp"
         android:layout_marginBottom="36dp"
@@ -132,8 +132,8 @@
     <FrameLayout
         android:id="@+id/clockMasker"
         android:layout_width="140dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="50dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="55dp"
         android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
