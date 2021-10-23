@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -11,7 +12,29 @@ import java.time.Duration
 class ClockMasker  {
 
     fun mask(view: View, durationSeconds: Int) {
+        startBackgroundAnimator(view, durationSeconds)
+        startRotationAnimator(view, durationSeconds)
+    }
 
+    private fun startRotationAnimator(view: View, durationSeconds: Int) {
+        val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
+
+        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(4f, 0f, 4f)
+        rotationAnimator.repeatCount = ObjectAnimator.INFINITE
+        rotationAnimator.repeatMode = ObjectAnimator.REVERSE
+        rotationAnimator.interpolator = BounceInterpolator()
+        val i: Long = (durationSeconds.toLong() / 2)
+        rotationAnimator.duration = Duration.ofSeconds(i).toMillis()
+
+        rotationAnimator.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Float
+            layout.rotation = progress
+        }
+
+        rotationAnimator.start()
+    }
+
+    private fun startBackgroundAnimator(view: View, durationSeconds: Int) {
         val image = view.findViewById<ImageView>(R.id.oledBackground5)
         val image2 = view.findViewById<ImageView>(R.id.oledBackground6)
 
@@ -31,21 +54,5 @@ class ClockMasker  {
 
         }
         gradientAnimator.start()
-
-        val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
-
-        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(4f, 0f, 4f)
-        rotationAnimator.repeatCount = ObjectAnimator.INFINITE
-        val i: Long = (durationSeconds.toLong() / 2)
-        rotationAnimator.duration = Duration.ofSeconds(i).toMillis()
-
-        rotationAnimator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Float
-            layout.rotation = progress
-        }
-
-        rotationAnimator.start()
-
-
     }
 }

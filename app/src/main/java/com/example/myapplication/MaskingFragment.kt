@@ -24,7 +24,8 @@ class MaskingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         LogoMasker().mask(view, 150)
-        StripeMasker().mask(view, 120)
+        ThinStripeMasker().mask(view, 120)
         ClockMasker().mask(view, 140)
+        BoldStripeMasker().mask(view, 100)
     }
 }

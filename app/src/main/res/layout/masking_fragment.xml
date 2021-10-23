@@ -7,9 +7,10 @@
     tools:context=".MaskingFragment">
 
 <!--Logo masker-->
+
     <FrameLayout
         android:id="@+id/logoMasker"
-        android:layout_width="110dp"
+        android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="50dp"
         android:layout_marginBottom="30dp"
@@ -47,18 +48,19 @@
     </FrameLayout>
 <!--Stripe masker-->
     <FrameLayout
-        android:id="@+id/stripeMasker"
+        android:id="@+id/boldStripeMasker"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="200dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="36dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginEnd="180dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/oledBackground3"
+            android:id="@+id/boldStripeBackground1"
             android:layout_width="1920px"
             android:layout_height="wrap_content"
             android:adjustViewBounds="false"
@@ -72,7 +74,48 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/oledBackground4"
+            android:id="@+id/boldStripeBackground2"
+            android:layout_width="1920px"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/oled"
+            android:translationX="-1850px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/thinStripeMasker"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/thinStripeBackground1"
+            android:layout_width="1920px"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/oled"
+            android:translationX="150px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/thinStripeBackground2"
             android:layout_width="1920px"
             android:layout_height="wrap_content"
             android:adjustViewBounds="false"
@@ -122,6 +165,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent" />
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
