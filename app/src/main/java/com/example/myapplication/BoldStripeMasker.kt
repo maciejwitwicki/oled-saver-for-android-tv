@@ -16,7 +16,7 @@ class BoldStripeMasker  {
     fun mask(view: View, durationSeconds: Int) {
         startBackgroundAnimation(view, durationSeconds)
         startRotationAnimation(view, durationSeconds)
-        startLocationAnimator(view, durationSeconds)
+        startHeightAnimator(view, durationSeconds)
     }
 
     private fun startRotationAnimation(view: View, durationSeconds: Int) {
@@ -29,7 +29,7 @@ class BoldStripeMasker  {
 
         rotationAnimator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
-            layout.rotation = progress
+            layout.rotation = -1 * progress
         }
 
         rotationAnimator.start()
@@ -58,19 +58,23 @@ class BoldStripeMasker  {
         animator.start()
     }
 
-    private fun startLocationAnimator(view: View, durationSeconds: Int) {
+    private fun startHeightAnimator(view: View, durationSeconds: Int) {
+        val animationSpeed = durationSeconds.toLong() / 4
         val layout = view.findViewById<FrameLayout>(R.id.boldStripeMasker)
 
-        val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f)
+        val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f, 1f, 1f)
         animator.repeatCount = ObjectAnimator.INFINITE
         animator.repeatMode = ObjectAnimator.REVERSE
-        animator.duration = Duration.ofSeconds(durationSeconds.toLong()).toMillis()
+        animator.interpolator = BounceInterpolator()
+        animator.duration = Duration.ofSeconds(animationSpeed).toMillis()
 
-        val maxMovement = 300
+        val maxHeight = layout.layoutParams.height
+        val minHeight = maxHeight / 3
+        val maxMovement = maxHeight - minHeight
 
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
-            val translation = maxMovement * progress
+            val translation = minHeight + maxMovement * progress
             val params = layout.layoutParams
             params.height = translation.toInt()
             layout.setLayoutParams(params)
