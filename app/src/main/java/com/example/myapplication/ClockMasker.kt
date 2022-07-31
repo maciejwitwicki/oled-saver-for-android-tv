@@ -13,7 +13,8 @@ class ClockMasker  {
 
     fun mask(view: View, durationSeconds: Int) {
         startBackgroundAnimator(view, durationSeconds)
-        startRotationAnimator(view, durationSeconds)
+        //TODO: summer TVN mode, clock sticks to the right side
+        //startRotationAnimator(view, durationSeconds)
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {

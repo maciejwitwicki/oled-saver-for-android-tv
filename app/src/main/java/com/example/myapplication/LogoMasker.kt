@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
@@ -11,9 +12,29 @@ import java.time.Duration
 
 class LogoMasker  {
 
+    //TODO: move setups to configuration
+    val standardSetup = LayoutSetup(116, 120)
+    val summerSetup = LayoutSetup(160, 170)
+
     fun mask(view: View, durationSeconds: Int) {
+        setupLayoutLocation(view, summerSetup)
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
+    }
+
+    private fun setupLayoutLocation(view: View, setup: LayoutSetup) {
+        val left = 60 - setup.width / 2
+        val bottom = 50 - setup.height / 2
+        val layout = view.findViewById<FrameLayout>(R.id.logoMasker)
+        val params = layout.layoutParams
+        val dm = layout.resources.displayMetrics
+        val heightDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.height.toFloat(), dm);
+        val widthDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.width.toFloat(), dm);
+        params.width = widthDp.toInt()
+        params.height = heightDp.toInt()
+        layout.layoutParams = params
+        layout.bottom = bottom
+        layout.left = left
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {
@@ -55,4 +76,6 @@ class LogoMasker  {
         }
         animator.start()
     }
+
+    data class LayoutSetup(val width: Int, val height: Int)
 }
