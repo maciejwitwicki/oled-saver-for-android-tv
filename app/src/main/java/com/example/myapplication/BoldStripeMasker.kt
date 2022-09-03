@@ -11,7 +11,7 @@ import java.time.Duration
 
 class BoldStripeMasker  {
 
-    private val SpaceBetweenStripes = 250
+    private val spaceBetweenStripes = 250
 
     fun mask(view: View, durationSeconds: Int) {
         startBackgroundAnimation(view, durationSeconds)
@@ -49,7 +49,7 @@ class BoldStripeMasker  {
             val progress = animation.animatedValue as Float
             val width = image.width.toFloat()
             val translation = width * progress
-            var translation2 = (translation - width) - SpaceBetweenStripes
+            var translation2 = (translation - width) - spaceBetweenStripes
 
             image.translationX = translation
             image2.translationX = translation2
