@@ -2,19 +2,43 @@ package com.example.myapplication
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import java.time.Duration
 
-class ClockMasker  {
+class ClockMasker {
+
+    val standardSetup = ClockMaskerLayoutSetup(140, 60, true)
+    val summerSetup = ClockMaskerLayoutSetup(200, 0, false)
 
     fun mask(view: View, durationSeconds: Int) {
+        val setup = standardSetup;
+        setupLayoutLocation(view, setup)
         startBackgroundAnimator(view, durationSeconds)
-        //TODO: summer TVN mode, clock sticks to the right side
-        //startRotationAnimator(view, durationSeconds)
+        if (setup.rotation) {
+            startRotationAnimator(view, durationSeconds)
+        }
+    }
+
+    private fun setupLayoutLocation(view: View, setup: ClockMaskerLayoutSetup) {
+        val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
+        val params = layout.layoutParams
+        val dm = layout.resources.displayMetrics
+        val widthDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.width.toFloat(), dm);
+        params.width = widthDp.toInt()
+
+        when (params) {
+            is ViewGroup.MarginLayoutParams -> {
+                val rightDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.right.toFloat(), dm);
+                params.marginEnd = rightDp.toInt()
+            }
+        }
+        layout.layoutParams = params
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {
@@ -56,4 +80,7 @@ class ClockMasker  {
         }
         gradientAnimator.start()
     }
+
+    data class ClockMaskerLayoutSetup(val width: Int, val right: Int, val rotation: Boolean)
+
 }

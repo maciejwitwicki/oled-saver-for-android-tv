@@ -13,11 +13,11 @@ import java.time.Duration
 class LogoMasker  {
 
     //TODO: move setups to configuration
-    val standardSetup = LayoutSetup(116, 120)
+    val standardSetup = LayoutSetup(100, 100)
     val summerSetup = LayoutSetup(160, 170)
 
     fun mask(view: View, durationSeconds: Int) {
-        setupLayoutLocation(view, summerSetup)
+        setupLayoutLocation(view, standardSetup)
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
     }
