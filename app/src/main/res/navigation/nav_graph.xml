@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.myapplication.MaskingFragment"
+        android:name="com.mwi.oledsaver.MaskingFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/masking_fragment">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.myapplication.SecondFragment"
+        android:name="com.mwi.oledsaver.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 

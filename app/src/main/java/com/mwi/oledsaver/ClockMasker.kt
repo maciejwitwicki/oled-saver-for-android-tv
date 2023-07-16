@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -9,23 +9,20 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.mwi.oledsaver.config.LayoutConfig
 import java.time.Duration
 
-class ClockMasker {
-
-    val standardSetup = ClockMaskerLayoutSetup(140, 60, true)
-    val summerSetup = ClockMaskerLayoutSetup(200, 0, false)
+class ClockMasker(val clockMaskerConfig: LayoutConfig.ClockMaskerLayoutSetup) {
 
     fun mask(view: View, durationSeconds: Int) {
-        val setup = standardSetup;
-        setupLayoutLocation(view, setup)
+        setupLayoutLocation(view, clockMaskerConfig)
         startBackgroundAnimator(view, durationSeconds)
-        if (setup.rotation) {
+        if (clockMaskerConfig.rotation) {
             startRotationAnimator(view, durationSeconds)
         }
     }
 
-    private fun setupLayoutLocation(view: View, setup: ClockMaskerLayoutSetup) {
+    private fun setupLayoutLocation(view: View, setup: LayoutConfig.ClockMaskerLayoutSetup) {
         val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
         val params = layout.layoutParams
         val dm = layout.resources.displayMetrics
@@ -81,6 +78,5 @@ class ClockMasker {
         gradientAnimator.start()
     }
 
-    data class ClockMaskerLayoutSetup(val width: Int, val right: Int, val rotation: Boolean)
 
 }

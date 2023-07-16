@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
