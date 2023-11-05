@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutContainer"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -46,14 +47,14 @@
             app:layout_constraintHorizontal_bias="0.03"
             app:layout_constraintStart_toStartOf="parent" />
     </FrameLayout>
-<!--Stripe masker-->
+    <!--Bold Stripe masker-->
     <FrameLayout
             android:id="@+id/boldStripeMasker"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="65dp"
             android:layout_marginStart="150dp"
             android:layout_marginEnd="180dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="65dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -88,12 +89,12 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
     </FrameLayout>
-
+    <!--Thin Stripe masker-->
     <FrameLayout
             android:id="@+id/thinStripeMasker"
             android:layout_width="0dp"
             android:layout_height="35dp"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="150dp"
             android:layout_marginEnd="75dp"
             android:layout_marginBottom="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -134,10 +135,10 @@
             android:layout_width="200dp"
             android:layout_height="70dp"
             android:layout_marginBottom="60dp"
+            android:layout_marginEnd="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="1dp">
-
+            >
         <ImageView
                 android:id="@+id/oledBackground5"
                 android:layout_width="1920px"
@@ -167,5 +168,28 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
     </FrameLayout>
+    <!--Cat image !-->
+    <FrameLayout
+        android:id="@+id/randomCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="330dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        >
+
+        <ImageView
+            android:id="@+id/randomCatImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@android:mipmap/sym_def_app_icon"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

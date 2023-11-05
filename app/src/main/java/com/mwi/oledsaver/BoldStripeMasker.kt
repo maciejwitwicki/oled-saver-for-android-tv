@@ -41,7 +41,7 @@ class BoldStripeMasker  {
 
         val animator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
         animator.repeatCount = ObjectAnimator.INFINITE
-        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.repeatMode = ObjectAnimator.RESTART
         animator.interpolator = LinearInterpolator()
         animator.duration = Duration.ofSeconds(durationSeconds.toLong()).toMillis()
 

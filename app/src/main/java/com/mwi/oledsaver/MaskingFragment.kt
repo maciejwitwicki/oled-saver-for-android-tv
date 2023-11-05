@@ -9,7 +9,11 @@ import com.mwi.oledsaver.config.ConfigProvider
 
 class MaskingFragment : Fragment() {
 
-    private var configProvider: ConfigProvider = ConfigProvider()
+    private val logoMaskerAnimationSpeed = 150
+    private val clockMaskerAnimationSpeed = 140
+    private val boldStripeAnimationSpeed = 60
+    private val thinStripAnimationSpeed = 120
+    private val configProvider: ConfigProvider = ConfigProvider()
 
 
     override fun onCreateView(
@@ -23,9 +27,10 @@ class MaskingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        LogoMasker(configProvider.getLogoMaskerLayoutSetup()).mask(view, 150)
-        ThinStripeMasker().mask(view, 120)
-        ClockMasker(configProvider.getClockMaskerConfig()).mask(view, 140)
-        BoldStripeMasker().mask(view, 100)
+        LogoMasker(configProvider.getLogoMaskerLayoutSetup()).mask(view, logoMaskerAnimationSpeed)
+        ClockMasker(configProvider.getClockMaskerConfig()).mask(view, clockMaskerAnimationSpeed)
+        BoldStripeMasker().mask(view, boldStripeAnimationSpeed)
+        ThinStripeMasker().mask(view, thinStripAnimationSpeed)
+        CatDisplayer().mask(view)
     }
 }
