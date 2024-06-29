@@ -3,11 +3,13 @@ package com.mwi.oledsaver
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.mwi.oledsaver.MainActivity.Companion.TAG
 import kotlinx.coroutines.*
 import java.net.URL
 import java.util.*
@@ -17,7 +19,7 @@ import kotlin.random.Random
 class CatDisplayer : Activity() {
 
     private val IntervalInSeconds = 13 * 60
-    private val DisplayLenghtInMillis = 1000L
+    private val DisplayLenghtInMillis = 1500L
     private val MinMarginDistance = 50
     private val CatServiceUrl = "https://cataas.com/cat"
 
@@ -25,20 +27,33 @@ class CatDisplayer : Activity() {
 
     init {
         val intervalMillis = (IntervalInSeconds * 1000).toLong();
-
-        Timer().scheduleAtFixedRate(0, intervalMillis) {
+        val delayMillis = intervalMillis - 2000;
+        Timer().scheduleAtFixedRate(delayMillis, intervalMillis) {
             Thread {
-                val url = URL(CatServiceUrl)
-                image = BitmapFactory.decodeStream(url.openStream())
+                try {
+                    //Log.i(TAG, "Loading cat bitmap")
+                    val url = URL(CatServiceUrl)
+                    image = BitmapFactory.decodeStream(url.openStream())
+                } catch (e: Exception) {
+                    //Log.e(TAG, "Failed to load bitmap", e)
+                    e.printStackTrace()
+                }
             }.start()
         }
     }
 
     fun mask(view: View) {
+        //Log.i(TAG, "Start Cat Displayer")
         val intervalMillis: Long = (IntervalInSeconds * 1000).toLong()
         Timer().scheduleAtFixedRate(intervalMillis, intervalMillis) {
             runOnUiThread{
-                displayRandomCatAtRandomPosition(view)
+                try {
+                    //Log.i(TAG, "Displaying cat bitmap")
+                    displayRandomCatAtRandomPosition(view)
+                } catch (e: Exception) {
+                    //Log.e(TAG, "Failed to mask", e)
+                    e.printStackTrace()
+                }
             }
         }
     }

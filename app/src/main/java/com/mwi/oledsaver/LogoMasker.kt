@@ -2,6 +2,7 @@ package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.BounceInterpolator
@@ -14,6 +15,7 @@ import java.time.Duration
 class LogoMasker(private val layoutConfig: LayoutConfig.LogoMaskerLayoutSetup) {
 
     fun mask(view: View, durationSeconds: Int) {
+        //Log.i(MainActivity.TAG, "Run Logo Masker")
         setupLayoutLocation(view, layoutConfig)
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)

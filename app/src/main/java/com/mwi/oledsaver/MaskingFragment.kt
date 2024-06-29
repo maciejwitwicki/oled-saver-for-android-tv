@@ -1,6 +1,7 @@
 package com.mwi.oledsaver
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +21,14 @@ class MaskingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Log.i(MainActivity.TAG, "MaskingFragment onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.masking_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Log.i(MainActivity.TAG, "MaskingFragment onViewCreated")
         LogoMasker(configProvider.getLogoMaskerLayoutSetup()).mask(view, logoMaskerAnimationSpeed)
         ClockMasker(configProvider.getClockMaskerConfig()).mask(view, clockMaskerAnimationSpeed)
         BoldStripeMasker().mask(view, boldStripeAnimationSpeed)

@@ -2,6 +2,7 @@ package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import java.time.Duration
 class ClockMasker(val clockMaskerConfig: LayoutConfig.ClockMaskerLayoutSetup) {
 
     fun mask(view: View, durationSeconds: Int) {
+        //Log.i(MainActivity.TAG, "Run Clock Masker")
         setupLayoutLocation(view, clockMaskerConfig)
         startBackgroundAnimator(view, durationSeconds)
         if (clockMaskerConfig.rotation) {

@@ -2,6 +2,7 @@ package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
@@ -14,6 +15,7 @@ class BoldStripeMasker  {
     private val spaceBetweenStripes = 250
 
     fun mask(view: View, durationSeconds: Int) {
+        //Log.i(MainActivity.TAG, "Run Bold Stripe Masker")
         startBackgroundAnimation(view, durationSeconds)
         startRotationAnimation(view, durationSeconds)
         startHeightAnimator(view, durationSeconds)

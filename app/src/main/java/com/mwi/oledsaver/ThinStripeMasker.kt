@@ -2,6 +2,7 @@ package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.widget.FrameLayout
@@ -13,6 +14,7 @@ class ThinStripeMasker  {
     private val SpaceBetweenStripes = 150
 
     fun mask(view: View, durationSeconds: Int) {
+        //Log.i(MainActivity.TAG, "Run Thin Stripe Masker")
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
     }
