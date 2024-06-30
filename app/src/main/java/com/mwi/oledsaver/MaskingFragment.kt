@@ -14,25 +14,27 @@ class MaskingFragment : Fragment() {
     private val clockMaskerAnimationSpeed = 140
     private val boldStripeAnimationSpeed = 60
     private val thinStripAnimationSpeed = 120
-    private val configProvider: ConfigProvider = ConfigProvider()
+    private val ageRestrictionMaskerAnimationSpeed = 150
+    private val config = MainActivity.CONFIG
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //Log.i(MainActivity.TAG, "MaskingFragment onCreateView")
+        Log.i(MainActivity.TAG, "MaskingFragment onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.masking_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Log.i(MainActivity.TAG, "MaskingFragment onViewCreated")
-        LogoMasker(configProvider.getLogoMaskerLayoutSetup()).mask(view, logoMaskerAnimationSpeed)
-        ClockMasker(configProvider.getClockMaskerConfig()).mask(view, clockMaskerAnimationSpeed)
+        Log.i(MainActivity.TAG, "MaskingFragment onViewCreated")
+        LogoMasker(config.getLogoMaskerLayoutSetup()).mask(view, logoMaskerAnimationSpeed)
+        ClockMasker(config.getClockMaskerConfig()).mask(view, clockMaskerAnimationSpeed)
         BoldStripeMasker().mask(view, boldStripeAnimationSpeed)
         ThinStripeMasker().mask(view, thinStripAnimationSpeed)
+        AgeRestrictionMasker().mask(view, ageRestrictionMaskerAnimationSpeed)
         CatDisplayer().mask(view)
     }
 }

@@ -16,7 +16,7 @@ import java.time.Duration
 class ClockMasker(val clockMaskerConfig: LayoutConfig.ClockMaskerLayoutSetup) {
 
     fun mask(view: View, durationSeconds: Int) {
-        //Log.i(MainActivity.TAG, "Run Clock Masker")
+        Log.i(MainActivity.TAG, "Run Clock Masker")
         setupLayoutLocation(view, clockMaskerConfig)
         startBackgroundAnimator(view, durationSeconds)
         if (clockMaskerConfig.rotation) {

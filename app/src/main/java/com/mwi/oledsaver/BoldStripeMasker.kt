@@ -15,7 +15,7 @@ class BoldStripeMasker  {
     private val spaceBetweenStripes = 250
 
     fun mask(view: View, durationSeconds: Int) {
-        //Log.i(MainActivity.TAG, "Run Bold Stripe Masker")
+        Log.i(MainActivity.TAG, "Run Bold Stripe Masker")
         startBackgroundAnimation(view, durationSeconds)
         startRotationAnimation(view, durationSeconds)
         startHeightAnimator(view, durationSeconds)

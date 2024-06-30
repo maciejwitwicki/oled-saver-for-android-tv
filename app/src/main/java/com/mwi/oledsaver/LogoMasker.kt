@@ -15,7 +15,7 @@ import java.time.Duration
 class LogoMasker(private val layoutConfig: LayoutConfig.LogoMaskerLayoutSetup) {
 
     fun mask(view: View, durationSeconds: Int) {
-        //Log.i(MainActivity.TAG, "Run Logo Masker")
+        Log.i(MainActivity.TAG, "Run Logo Masker")
         setupLayoutLocation(view, layoutConfig)
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
@@ -56,8 +56,8 @@ class LogoMasker(private val layoutConfig: LayoutConfig.LogoMaskerLayoutSetup) {
     }
 
     private fun startBackgroundAnimator(view: View, durationSeconds: Int) {
-        val image = view.findViewById<ImageView>(R.id.oledBackground)
-        val image2 = view.findViewById<ImageView>(R.id.oledBackground2)
+        val image = view.findViewById<ImageView>(R.id.logoMaskerBackground)
+        val image2 = view.findViewById<ImageView>(R.id.logoMaskerBackground2)
 
         val animator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
         animator.repeatCount = ObjectAnimator.INFINITE

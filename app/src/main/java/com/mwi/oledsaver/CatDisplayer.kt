@@ -31,11 +31,11 @@ class CatDisplayer : Activity() {
         Timer().scheduleAtFixedRate(delayMillis, intervalMillis) {
             Thread {
                 try {
-                    //Log.i(TAG, "Loading cat bitmap")
+                    Log.i(TAG, "Loading cat bitmap")
                     val url = URL(CatServiceUrl)
                     image = BitmapFactory.decodeStream(url.openStream())
                 } catch (e: Exception) {
-                    //Log.e(TAG, "Failed to load bitmap", e)
+                    Log.e(TAG, "Failed to load bitmap", e)
                     e.printStackTrace()
                 }
             }.start()
@@ -43,15 +43,15 @@ class CatDisplayer : Activity() {
     }
 
     fun mask(view: View) {
-        //Log.i(TAG, "Start Cat Displayer")
+        Log.i(TAG, "Start Cat Displayer")
         val intervalMillis: Long = (IntervalInSeconds * 1000).toLong()
         Timer().scheduleAtFixedRate(intervalMillis, intervalMillis) {
             runOnUiThread{
                 try {
-                    //Log.i(TAG, "Displaying cat bitmap")
+                    Log.i(TAG, "Displaying cat bitmap")
                     displayRandomCatAtRandomPosition(view)
                 } catch (e: Exception) {
-                    //Log.e(TAG, "Failed to mask", e)
+                    Log.e(TAG, "Failed to mask", e)
                     e.printStackTrace()
                 }
             }
