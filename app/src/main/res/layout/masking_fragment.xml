@@ -54,7 +54,7 @@
         android:id="@+id/ageRestrictionMasker"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:alpha="1"
         app:layout_constraintStart_toStartOf="parent"
