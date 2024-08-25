@@ -3,14 +3,11 @@ package com.mwi.oledsaver
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.mwi.oledsaver.config.LayoutConfig
 import java.time.Duration
 
 class AgeRestrictionMasker() {

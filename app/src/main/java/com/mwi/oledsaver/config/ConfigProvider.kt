@@ -4,7 +4,6 @@ import android.util.Log
 import android.util.Range
 import com.mwi.oledsaver.MainActivity
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.ZonedDateTime
 
 class ConfigProvider : LayoutConfig, ApplicationConfig {
