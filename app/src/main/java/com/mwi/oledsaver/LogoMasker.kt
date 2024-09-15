@@ -22,7 +22,7 @@ class LogoMasker(private val layoutConfig: LayoutConfig.LogoMaskerLayoutSetup) {
     }
 
     private fun setupLayoutLocation(view: View, layoutConfig: LayoutConfig.LogoMaskerLayoutSetup) {
-        val left = 60 - layoutConfig.width / 2
+        val left = 65 - layoutConfig.width / 2
         val bottom = 50 - layoutConfig.height / 2
         val layout = view.findViewById<FrameLayout>(R.id.logoMasker)
         val params = layout.layoutParams

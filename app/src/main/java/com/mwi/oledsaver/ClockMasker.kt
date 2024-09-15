@@ -2,14 +2,12 @@ package com.mwi.oledsaver
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.Matrix
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
-import android.widget.ImageView
+import com.google.android.material.imageview.ShapeableImageView
 import com.mwi.oledsaver.config.LayoutConfig
 import java.time.Duration
 
@@ -25,25 +23,13 @@ class ClockMasker(val clockMaskerConfig: LayoutConfig.ClockMaskerLayoutSetup) {
     }
 
     private fun setupLayoutLocation(view: View, setup: LayoutConfig.ClockMaskerLayoutSetup) {
-        val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
-        val params = layout.layoutParams
-        val dm = layout.resources.displayMetrics
-        val widthDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.width.toFloat(), dm);
-        params.width = widthDp.toInt()
-
-        when (params) {
-            is ViewGroup.MarginLayoutParams -> {
-                val rightDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, setup.right.toFloat(), dm);
-                params.marginEnd = rightDp.toInt()
-            }
-        }
-        layout.layoutParams = params
+        // TODO: remove clock masker configurable layout if summer clock will remain unchanged in the TV show
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {
         val layout = view.findViewById<FrameLayout>(R.id.clockMasker)
 
-        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(4f, 0f, 4f)
+        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, 360f)
         rotationAnimator.repeatCount = ObjectAnimator.INFINITE
         rotationAnimator.repeatMode = ObjectAnimator.REVERSE
         rotationAnimator.interpolator = BounceInterpolator()
@@ -59,23 +45,32 @@ class ClockMasker(val clockMaskerConfig: LayoutConfig.ClockMaskerLayoutSetup) {
     }
 
     private fun startBackgroundAnimator(view: View, durationSeconds: Int) {
-        val image = view.findViewById<ImageView>(R.id.oledBackground5)
-        val image2 = view.findViewById<ImageView>(R.id.oledBackground6)
+        val imageView = view.findViewById<ShapeableImageView>(R.id.circleClockBackground)
 
         val gradientAnimator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
         gradientAnimator.repeatCount = ObjectAnimator.INFINITE
-        gradientAnimator.interpolator = LinearInterpolator()
+        gradientAnimator.interpolator = BounceInterpolator()
         gradientAnimator.duration = Duration.ofSeconds(durationSeconds.toLong()).toMillis()
+
+        val f = FloatArray(9)
+        imageView.getImageMatrix().getValues(f)
+        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
+        val scaleX = f[Matrix.MSCALE_X];
+        // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
+        val d = imageView.getDrawable();
+        val origW = d.intrinsicWidth;
+        // Calculate the actual dimensions
+        val actualImageWidth = Math.round(origW * scaleX);
+        val animationRange = actualImageWidth - imageView.width
 
         gradientAnimator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
-            val width = image.width.toFloat()
-            val translation = width * progress
-            var translation2 = (translation - width)
+            val paddingStart = (progress * animationRange).toInt();
 
-            image.translationX = translation
-            image2.translationX = translation2
-
+            val end = imageView.contentPaddingEnd
+            val top = imageView.contentPaddingTop
+            val bottom = imageView.contentPaddingBottom
+            imageView.setContentPadding(paddingStart, top, end, bottom)
         }
         gradientAnimator.start()
     }
