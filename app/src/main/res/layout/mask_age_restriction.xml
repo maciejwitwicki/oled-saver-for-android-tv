@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ageRestrictionMasker"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="50dp"
+    android:layout_marginTop="30dp"
+    android:alpha="1"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:showIn="@layout/masking_fragment">
+
+    <ImageView
+        android:id="@+id/ageRestrictiondBackground"
+        android:layout_width="1920px"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/oled"
+        android:translationX="150px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ageRestrictionBackground2"
+        android:layout_width="1920px"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/oled"
+        android:translationX="-1850px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent" />
+</FrameLayout>
