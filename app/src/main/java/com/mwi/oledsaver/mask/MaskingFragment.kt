@@ -1,4 +1,4 @@
-package com.mwi.oledsaver
+package com.mwi.oledsaver.mask
 
 import android.os.Bundle
 import android.util.Log
@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
+import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 
 class MaskingFragment : Fragment() {
@@ -15,7 +18,7 @@ class MaskingFragment : Fragment() {
     private val boldStripeAnimationSpeed = 60
     private val thinStripAnimationSpeed = 120
     private val ageRestrictionMaskerAnimationSpeed = 150
-    private val config = MainActivity.CONFIG
+    private val config = MASK_APP_CONFIG
 
     private val animationHelper = AnimationHelper()
 
@@ -29,14 +32,14 @@ class MaskingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(MainActivity.TAG, "MaskingFragment onCreateView")
+        Log.i(LOGGING_TAG, "MaskingFragment onCreateView")
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.masking_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(MainActivity.TAG, "MaskingFragment onViewCreated")
+        Log.i(LOGGING_TAG, "MaskingFragment onViewCreated")
         logoMasker.mask(view, logoMaskerAnimationSpeed)
         clockMasker.mask(view, clockMaskerAnimationSpeed)
         boldStripeMasker.mask(view, boldStripeAnimationSpeed)

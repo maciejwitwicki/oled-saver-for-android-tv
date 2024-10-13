@@ -1,4 +1,4 @@
-package com.mwi.oledsaver
+package com.mwi.oledsaver.mask
 
 import android.app.Activity
 import android.graphics.Bitmap
@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.mwi.oledsaver.MainActivity.Companion.TAG
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.R
 import kotlinx.coroutines.*
 import java.net.URL
 import java.util.*
@@ -31,11 +32,11 @@ class CatDisplayer : Activity() {
         Timer().scheduleAtFixedRate(delayMillis, intervalMillis) {
             Thread {
                 try {
-                    Log.i(TAG, "Loading cat bitmap")
+                    Log.i(LOGGING_TAG, "Loading cat bitmap")
                     val url = URL(CatServiceUrl)
                     image = BitmapFactory.decodeStream(url.openStream())
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to load bitmap", e)
+                    Log.e(LOGGING_TAG, "Failed to load bitmap", e)
                     e.printStackTrace()
                 }
             }.start()
@@ -43,15 +44,15 @@ class CatDisplayer : Activity() {
     }
 
     fun mask(view: View) {
-        Log.i(TAG, "Start Cat Displayer")
+        Log.i(LOGGING_TAG, "Start Cat Displayer")
         val intervalMillis: Long = (IntervalInSeconds * 1000).toLong()
         Timer().scheduleAtFixedRate(intervalMillis, intervalMillis) {
             runOnUiThread{
                 try {
-                    Log.i(TAG, "Displaying cat bitmap")
+                    Log.i(LOGGING_TAG, "Displaying cat bitmap")
                     displayRandomCatAtRandomPosition(view)
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to mask", e)
+                    Log.e(LOGGING_TAG, "Failed to mask", e)
                     e.printStackTrace()
                 }
             }

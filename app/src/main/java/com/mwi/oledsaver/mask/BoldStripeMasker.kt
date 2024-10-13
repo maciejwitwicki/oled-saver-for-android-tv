@@ -1,4 +1,4 @@
-package com.mwi.oledsaver
+package com.mwi.oledsaver.mask
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -7,13 +7,16 @@ import android.view.View
 import android.view.animation.BounceInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.imageview.ShapeableImageView
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.R
+import com.mwi.oledsaver.activity.MainActivity
 import com.mwi.oledsaver.animation.AnimationHelper
 import java.time.Duration
 
 class BoldStripeMasker(private val animationHelper: AnimationHelper)  {
 
     fun mask(view: View, durationSeconds: Int) {
-        Log.i(MainActivity.TAG, "Run Bold Stripe Masker")
+        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
         startBackgroundAnimation(view, durationSeconds)
         startRotationAnimation(view, durationSeconds)
         startHeightAnimator(view, durationSeconds)

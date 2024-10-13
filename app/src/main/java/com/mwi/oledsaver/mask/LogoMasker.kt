@@ -1,8 +1,11 @@
-package com.mwi.oledsaver
+package com.mwi.oledsaver.mask
 
 import android.util.Log
 import android.view.View
 import com.google.android.material.imageview.ShapeableImageView
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.R
+import com.mwi.oledsaver.activity.MainActivity
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.config.LayoutConfig
 
@@ -12,7 +15,7 @@ class LogoMasker(
 ) {
 
     fun mask(view: View, durationSeconds: Int) {
-        Log.i(MainActivity.TAG, "Run Logo Masker")
+        Log.i(LOGGING_TAG, "Run Logo Masker")
         setupLayoutLocation(view, layoutConfig)
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
