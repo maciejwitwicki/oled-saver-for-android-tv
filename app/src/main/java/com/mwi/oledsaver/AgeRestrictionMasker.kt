@@ -8,14 +8,21 @@ import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.mwi.oledsaver.animation.AnimationHelper
 import java.time.Duration
 
-class AgeRestrictionMasker() {
+class AgeRestrictionMasker(private val animationHelper: AnimationHelper) {
 
     fun mask(view: View, durationSeconds: Int) {
         Log.i(MainActivity.TAG, "Run Age restriction Masker")
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
+        startTransparencyAnimator(view, durationSeconds)
+    }
+
+    private fun startTransparencyAnimator(view: View, durationSeconds: Int) {
+        val layout = view.findViewById<FrameLayout>(R.id.ageRestrictionMasker)
+        animationHelper.startTransparencyAnimator(layout, durationSeconds)
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {

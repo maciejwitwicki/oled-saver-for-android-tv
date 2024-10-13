@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.mwi.oledsaver.config.ConfigProvider
+import com.mwi.oledsaver.animation.AnimationHelper
 
 class MaskingFragment : Fragment() {
 
@@ -17,6 +17,13 @@ class MaskingFragment : Fragment() {
     private val ageRestrictionMaskerAnimationSpeed = 150
     private val config = MainActivity.CONFIG
 
+    private val animationHelper = AnimationHelper()
+
+    private val boldStripeMasker = BoldStripeMasker(animationHelper)
+    private val thinStripeMasker = ThinStripeMasker(animationHelper)
+    private val clockMasker = ClockMasker(animationHelper, config.getClockMaskerConfig())
+    private val logoMasker = LogoMasker(animationHelper, config.getLogoMaskerLayoutSetup())
+    private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +37,11 @@ class MaskingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(MainActivity.TAG, "MaskingFragment onViewCreated")
-        LogoMasker(config.getLogoMaskerLayoutSetup()).mask(view, logoMaskerAnimationSpeed)
-        ClockMasker(config.getClockMaskerConfig()).mask(view, clockMaskerAnimationSpeed)
-        BoldStripeMasker().mask(view, boldStripeAnimationSpeed)
-        ThinStripeMasker().mask(view, thinStripAnimationSpeed)
-        AgeRestrictionMasker().mask(view, ageRestrictionMaskerAnimationSpeed)
+        logoMasker.mask(view, logoMaskerAnimationSpeed)
+        clockMasker.mask(view, clockMaskerAnimationSpeed)
+        boldStripeMasker.mask(view, boldStripeAnimationSpeed)
+        thinStripeMasker.mask(view, thinStripAnimationSpeed)
+        ageRestrictionMasker.mask(view, ageRestrictionMaskerAnimationSpeed)
         CatDisplayer().mask(view)
     }
 }

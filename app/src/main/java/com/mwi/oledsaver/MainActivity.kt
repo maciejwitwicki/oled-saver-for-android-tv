@@ -1,5 +1,7 @@
 package com.mwi.oledsaver
 
+import android.app.AlarmManager
+import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
@@ -20,14 +22,17 @@ class MainActivity : AppCompatActivity() {
                 .build()
         )
 
-        if (CONFIG.isEnabled()) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        OledSaverApplication.ALARM_MANAGER.initialize(this, alarmManager)
+
+//        if (CONFIG.isEnabled()) {
             Log.i(TAG, "Created MainActivity")
             setContentView(R.layout.activity_main)
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        } else {
-            Log.i(TAG, "Out of operating hours, finishing")
-            finishAndRemoveTask()
-        }
+//        } else {
+//            Log.i(TAG, "Out of operating hours, finishing")
+//            finishAndRemoveTask()
+//        }
     }
 
     companion object {

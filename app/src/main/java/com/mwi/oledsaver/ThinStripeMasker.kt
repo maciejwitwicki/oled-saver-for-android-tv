@@ -7,9 +7,10 @@ import android.view.View
 import android.view.animation.BounceInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.mwi.oledsaver.animation.AnimationHelper
 import java.time.Duration
 
-class ThinStripeMasker  {
+class ThinStripeMasker(private val animationHelper: AnimationHelper)  {
 
     private val SpaceBetweenStripes = 150
 
@@ -17,6 +18,12 @@ class ThinStripeMasker  {
         Log.i(MainActivity.TAG, "Run Thin Stripe Masker")
         startBackgroundAnimator(view, durationSeconds)
         startRotationAnimator(view, durationSeconds)
+        startTransparencyAnimator(view, durationSeconds)
+    }
+
+    private fun startTransparencyAnimator(view: View, durationSeconds: Int) {
+        val layout = view.findViewById<View>(R.id.clockMasker)
+        animationHelper.startTransparencyAnimator(layout, durationSeconds)
     }
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {
@@ -51,7 +58,7 @@ class ThinStripeMasker  {
             val progress = animation.animatedValue as Float
             val width = image.width.toFloat()
             val translation = width * progress
-            var translation2 = (translation - width) - SpaceBetweenStripes
+            val translation2 = (translation - width) - SpaceBetweenStripes
 
             image.translationX = translation
             image2.translationX = translation2

@@ -20,11 +20,11 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     }
 
     override fun getClockMaskerConfig(): LayoutConfig.ClockMaskerLayoutSetup {
-        return getConfig().getClockMaskerConfig();
+        return getConfig().getClockMaskerConfig()
     }
 
     override fun getLogoMaskerLayoutSetup(): LayoutConfig.LogoMaskerLayoutSetup {
-        return getConfig().getLogoMaskerLayoutSetup();
+        return getConfig().getLogoMaskerLayoutSetup()
     }
 
     private fun getConfig(): LayoutConfig {
@@ -52,10 +52,10 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     }
 
     private fun createOperatingHoursRange(): Range<ZonedDateTime> {
-        val start = getNow().withHour(8)
-            .withMinute(0).withSecond(0)
-        val end = getNow().withHour(12)
-            .withMinute(0).withSecond(0)
+        val start = getNow().withHour(7)
+            .withMinute(45).withSecond(0)
+        val end = getNow().withHour(11)
+            .withMinute(30).withSecond(0)
 
         return Range(start, end)
     }
