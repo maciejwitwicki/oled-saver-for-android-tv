@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
 import com.mwi.oledsaver.R
 import kotlinx.coroutines.*
 import java.net.URL
@@ -30,16 +31,19 @@ class CatDisplayer : Activity() {
         val intervalMillis = (IntervalInSeconds * 1000).toLong();
         val delayMillis = intervalMillis - 2000;
         Timer().scheduleAtFixedRate(delayMillis, intervalMillis) {
-            Thread {
-                try {
-                    Log.i(LOGGING_TAG, "Loading cat bitmap")
-                    val url = URL(CatServiceUrl)
-                    image = BitmapFactory.decodeStream(url.openStream())
-                } catch (e: Exception) {
-                    Log.e(LOGGING_TAG, "Failed to load bitmap", e)
-                    e.printStackTrace()
-                }
-            }.start()
+            if (MASK_APP_CONFIG.isEnabled()) {
+
+                Thread {
+                    try {
+                        Log.i(LOGGING_TAG, "Loading cat bitmap")
+                        val url = URL(CatServiceUrl)
+                        image = BitmapFactory.decodeStream(url.openStream())
+                    } catch (e: Exception) {
+                        Log.e(LOGGING_TAG, "Failed to load bitmap", e)
+                        e.printStackTrace()
+                    }
+                }.start()
+            }
         }
     }
 
@@ -47,13 +51,15 @@ class CatDisplayer : Activity() {
         Log.i(LOGGING_TAG, "Start Cat Displayer")
         val intervalMillis: Long = (IntervalInSeconds * 1000).toLong()
         Timer().scheduleAtFixedRate(intervalMillis, intervalMillis) {
-            runOnUiThread{
-                try {
-                    Log.i(LOGGING_TAG, "Displaying cat bitmap")
-                    displayRandomCatAtRandomPosition(view)
-                } catch (e: Exception) {
-                    Log.e(LOGGING_TAG, "Failed to mask", e)
-                    e.printStackTrace()
+            if (MASK_APP_CONFIG.isEnabled()) {
+                runOnUiThread {
+                    try {
+                        Log.i(LOGGING_TAG, "Displaying cat bitmap")
+                        displayRandomCatAtRandomPosition(view)
+                    } catch (e: Exception) {
+                        Log.e(LOGGING_TAG, "Failed to display cat bitmap", e)
+                        e.printStackTrace()
+                    }
                 }
             }
         }
