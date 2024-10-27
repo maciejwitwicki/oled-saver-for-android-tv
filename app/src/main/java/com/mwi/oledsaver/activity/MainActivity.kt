@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.mwi.oledsaver.OledSaverApplication
@@ -26,6 +27,14 @@ class MainActivity : FragmentActivity() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         OledSaverApplication.ALARM_MANAGER.initialize(applicationContext, alarmManager)
+
+        val canDrawOverlays = Settings.canDrawOverlays(this);
+        Log.i(LOGGING_TAG, "Can draw overlays $canDrawOverlays");
+
+        if (!canDrawOverlays) {
+            val askForPermission = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            startActivity(askForPermission)
+        }
 
         if (MASK_APP_CONFIG.isEnabled()) {
             Log.i(LOGGING_TAG, "MainActivity - started")

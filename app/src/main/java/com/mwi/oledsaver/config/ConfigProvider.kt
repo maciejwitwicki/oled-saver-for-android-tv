@@ -55,8 +55,8 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     private fun createOperatingHoursRange(): Range<ZonedDateTime> {
         val start = getNow().withHour(7)
             .withMinute(45).withSecond(0)
-        val end = getNow().withHour(11)
-            .withMinute(30).withSecond(0)
+        val end = getNow().withHour(12)
+            .withMinute(0).withSecond(0)
 
         return Range(start, end)
     }

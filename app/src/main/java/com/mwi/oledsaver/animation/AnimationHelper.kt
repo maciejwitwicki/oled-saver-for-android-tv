@@ -13,8 +13,8 @@ import java.time.Duration
 
 class AnimationHelper {
 
-    fun startRotationAnimator(layout: View, durationSeconds: Int) {
-        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, 360f)
+    fun startRotationAnimator(layout: View, durationSeconds: Int, maxDegree: Float = 360f) {
+        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, maxDegree)
         rotationAnimator.repeatCount = ObjectAnimator.INFINITE
         rotationAnimator.repeatMode = ObjectAnimator.REVERSE
         rotationAnimator.interpolator = BounceInterpolator()
