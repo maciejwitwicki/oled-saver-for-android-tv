@@ -11,6 +11,7 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONF
 import com.mwi.oledsaver.activity.MaskerBroadcastReceiver
 import com.mwi.oledsaver.config.ConfigProvider
 import java.time.Instant
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 class MaskingAlarmManager(private val configProvider: ConfigProvider) {
@@ -27,14 +28,15 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
         val intent = Intent(context, MaskerBroadcastReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
             context, 0, intent,
-            PendingIntent.FLAG_MUTABLE
+            PendingIntent.FLAG_MUTABLE +
+                    PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val alarmTimeMillis = getNextAlarmTimeMillis()
-        Log.i(
-            LOGGING_TAG,
-            "scheduling Intent broadcast at %s".format(Instant.ofEpochMilli(alarmTimeMillis))
-        )
+        val alarmDate = Instant.ofEpochMilli(alarmTimeMillis)
+            .atZone(ConfigProvider.TIME_ZONE)
+            .format(ConfigProvider.TIME_FORMAT)
+        Log.i(LOGGING_TAG, "scheduling Intent broadcast at $alarmDate")
 
         alarmManager.set(RTC, alarmTimeMillis, pendingIntent)
     }

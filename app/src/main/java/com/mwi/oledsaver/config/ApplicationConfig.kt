@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 
 interface ApplicationConfig {
 
-    fun isEnabled(): Boolean
+    fun isEnabled(logDebug: Boolean = false): Boolean
     fun getOperatingRange(): Range<ZonedDateTime>
     fun getNow(): ZonedDateTime
 

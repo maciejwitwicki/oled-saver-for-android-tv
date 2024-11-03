@@ -29,7 +29,7 @@ class ThinStripeMasker(private val animationHelper: AnimationHelper)  {
 
     private fun startRotationAnimator(view: View, durationSeconds: Int) {
         val layout = view.findViewById<View>(R.id.thinStripeBackground)
-        animationHelper.startRotationAnimator(layout, durationSeconds, 1f)
+        animationHelper.startRotationAnimator(layout, durationSeconds, 0.5f)
     }
 
 }

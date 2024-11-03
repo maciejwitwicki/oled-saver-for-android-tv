@@ -1,19 +1,41 @@
 package com.mwi.oledsaver.config
 
+import android.util.Log
 import android.util.Range
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class ConfigProvider : LayoutConfig, ApplicationConfig {
 
     private val summerConfigDateRange = createSummerRange()
     private val operatingHoursRange: Range<ZonedDateTime> = createOperatingHoursRange()
 
-    override fun isEnabled(): Boolean {
+    override fun isEnabled(logDebug: Boolean): Boolean {
         val now = getNow()
         val start = operatingHoursRange.lower
         val end = operatingHoursRange.upper
+
+        if (logDebug) {
+            logDates(now, start, end);
+        }
         return now.isAfter(start) && now.isBefore(end)
+    }
+
+    private fun logDates(now: ZonedDateTime, start: ZonedDateTime, end: ZonedDateTime) {
+        val nowFormatted = now.format(TIME_FORMAT)
+        val startFormatted  = start.format(TIME_FORMAT)
+        val endFormatted = end.format(TIME_FORMAT)
+        Log.i(
+            LOGGING_TAG,
+            """
+                ConfigProvider#isEnabled
+                  - now: $nowFormatted
+                  - start: $startFormatted
+                  - end: $endFormatted
+            """.trimIndent()
+        )
     }
 
     override fun getOperatingRange(): Range<ZonedDateTime> {
@@ -29,7 +51,7 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     }
 
     override fun getNow(): ZonedDateTime {
-        return ZonedDateTime.now(ZoneId.of("Europe/Warsaw"))
+        return ZonedDateTime.now(TIME_ZONE)
     }
 
     private fun getConfig(): LayoutConfig {
@@ -59,6 +81,11 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
             .withMinute(0).withSecond(0)
 
         return Range(start, end)
+    }
+
+    companion object {
+        val TIME_ZONE: ZoneId = ZoneId.of("Europe/Warsaw")
+        val TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     }
 
 }
