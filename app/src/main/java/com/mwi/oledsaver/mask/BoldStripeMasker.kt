@@ -1,17 +1,12 @@
 package com.mwi.oledsaver.mask
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.util.Log
 import android.view.View
-import android.view.animation.BounceInterpolator
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
-import java.time.Duration
 
 class BoldStripeMasker(animationHelper: AnimationHelper)  {
 

@@ -23,8 +23,7 @@ class MaskerAnimatorManager(
             rotationAnimator =
                 animationHelper.startRotationAnimator(component, durationSeconds, rotationDegree)
 
-        if (isNotRunning(backgroundAnimator))
-            backgroundAnimator = animationHelper.startBackgroundAnimator(component, durationSeconds)
+       animationHelper.startBackgroundAnimator(component, durationSeconds)
 
         if (isNotRunning(transparencyAnimator))
             transparencyAnimator = animationHelper.startTransparencyAnimator(layout, durationSeconds)
