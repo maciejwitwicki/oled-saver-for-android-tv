@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.FragmentActivity
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
@@ -17,7 +18,6 @@ class ExitActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         Log.i(LOGGING_TAG, "${this.javaClass.simpleName} - create")
         setContentView(R.layout.activity_exit)
-
 
         findViewById<View>(R.id.exit_button_dismiss_5m)
             .setOnClickListener {
@@ -30,6 +30,13 @@ class ExitActivity : FragmentActivity() {
         findViewById<View>(R.id.exit_button_dismiss_1d)
             .setOnClickListener {
                 dismiss("1d")
+            }
+
+            this.onBackPressedDispatcher
+            .addCallback(this) {
+                Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Back pressed!")
+                dismiss("5m")
+                finish()
             }
     }
 

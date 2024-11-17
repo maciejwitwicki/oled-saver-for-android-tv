@@ -43,7 +43,7 @@ class MaskingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val callback = requireActivity()
+        requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner) {
                 Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Back pressed!")
@@ -51,7 +51,6 @@ class MaskingFragment : Fragment() {
                 startActivity(intent)
                 requireActivity().finish()
             }
-        //callback.isEnabled = true
 
         Log.i(LOGGING_TAG, "MaskingFragment onViewCreated")
         logoMasker.mask(view, logoMaskerAnimationSpeed)

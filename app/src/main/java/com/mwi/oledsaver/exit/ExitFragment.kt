@@ -16,19 +16,6 @@ import com.mwi.oledsaver.animation.AnimationHelper
 
 class ExitFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val callback = requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this) {
-
-            }
-
-      //  callback.isEnabled = true
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
