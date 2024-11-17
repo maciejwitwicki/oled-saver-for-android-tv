@@ -10,6 +10,7 @@ import android.animation.ValueAnimator.REVERSE
 import android.graphics.Matrix
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.AlphaAnimation
 import com.mwi.oledsaver.R
 
 import android.view.animation.BounceInterpolator
@@ -41,17 +42,13 @@ class AnimationHelper {
         durationSeconds: Int,
         maxDegree: Float = 360f
     ): ValueAnimator {
-        val rotationAnimator: ValueAnimator = ValueAnimator.ofFloat(0f, maxDegree)
+        val rotationAnimator = ObjectAnimator.ofFloat(layout, View.ROTATION, maxDegree)
         rotationAnimator.repeatCount = ObjectAnimator.INFINITE
         rotationAnimator.repeatMode = ObjectAnimator.REVERSE
+        rotationAnimator.startDelay = Random.nextLong(10_000)
         rotationAnimator.interpolator = BounceInterpolator()
         val i: Long = (durationSeconds.toLong() / 2)
         rotationAnimator.duration = Duration.ofSeconds(i).toMillis()
-
-        rotationAnimator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Float
-            layout.rotation = progress
-        }
 
         rotationAnimator.start()
         return rotationAnimator;
@@ -69,47 +66,6 @@ class AnimationHelper {
         )
         animation.onEnd { animation.start() }
         animation.start()
-    }
-
-    fun startTransparencyAnimator(layout: View, durationSeconds: Int): ObjectAnimator? {
-        val startingAlpha = layout.alpha
-        val animator = ObjectAnimator.ofFloat(layout, View.ALPHA, startingAlpha, 0.6f, 0.2f)
-        animator.startDelay = Random.nextLong(10_000)
-        animator.repeatCount = INFINITE
-        animator.repeatMode = REVERSE
-        animator.interpolator = LinearInterpolator()
-        animator.duration = Duration.ofSeconds(durationSeconds.toLong()).toMillis()
-
-        animator.addUpdateListener { animation ->
-            layout.alpha = animation.animatedFraction
-        }
-
-        animator.start()
-        return animator
-    }
-
-    fun startHeightAnimator(layout: ShapeableImageView, durationSeconds: Int): ValueAnimator {
-        val animationSpeed = durationSeconds.toLong()
-        val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f, 1f, 1f)
-        animator.repeatCount = ObjectAnimator.INFINITE
-        animator.repeatMode = ObjectAnimator.REVERSE
-        animator.interpolator = BounceInterpolator()
-        animator.duration = Duration.ofSeconds(animationSpeed).toMillis()
-
-        val maxHeight = layout.layoutParams.height
-        val minHeight = maxHeight / 3
-        val maxMovement = maxHeight - minHeight
-
-        animator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Float
-            val translation = minHeight + maxMovement * progress
-            val params = layout.layoutParams
-            params.height = translation.toInt()
-            layout.setLayoutParams(params)
-        }
-
-        animator.start()
-        return animator
     }
 
     private fun createBlackBackgroundAnimator(
@@ -134,11 +90,10 @@ class AnimationHelper {
         durationMillis: Long
     ): AnimatorSet {
 
-        val gradientAnimator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
-        gradientAnimator.repeatCount = 1
-        gradientAnimator.repeatMode = REVERSE
-        gradientAnimator.interpolator = LinearInterpolator()
-        gradientAnimator.duration = durationMillis
+        val gradientTranslateAnimator: ValueAnimator = ValueAnimator.ofFloat(0.0f, 1.0f)
+        gradientTranslateAnimator.repeatCount = 3
+        gradientTranslateAnimator.repeatMode = REVERSE
+        gradientTranslateAnimator.interpolator = LinearInterpolator()
 
         val f = FloatArray(9)
         imageView.getImageMatrix().getValues(f)
@@ -151,7 +106,7 @@ class AnimationHelper {
         val actualImageWidth = Math.round(origW * scaleX);
         val animationRange = actualImageWidth - imageView.width
 
-        gradientAnimator.addUpdateListener { animation ->
+        gradientTranslateAnimator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
             val paddingStart = (progress * animationRange).toInt();
 
@@ -161,28 +116,38 @@ class AnimationHelper {
             imageView.setContentPadding(paddingStart, top, end, bottom)
 
         }
-        gradientAnimator.onStart {
+        gradientTranslateAnimator.onStart {
             imageView.setImageResource(R.drawable.oled)
         }
+
+        val transparencyAnimator = ObjectAnimator.ofFloat(imageView, View.ALPHA, 1f, 0.5f)
+        transparencyAnimator.repeatCount  = 1
+        transparencyAnimator.repeatMode = REVERSE
+
+        val gradientAnimator = AnimatorSet()
+        gradientAnimator.duration = durationMillis
+        gradientAnimator.play(gradientTranslateAnimator)
+            .with(transparencyAnimator)
+
         val gradientFadeIn = fadeIn(imageView, durationMillis / 4)
         val gradientFadeOut = fadeOut(imageView, durationMillis / 4)
 
-        val gradientAnimaation = AnimatorSet()
-        gradientAnimaation
+        val gradientAnimation = AnimatorSet()
+        gradientAnimation
             .play(gradientAnimator)
             .before(gradientFadeOut)
             .after(gradientFadeIn)
-        return gradientAnimaation
+        return gradientAnimation
     }
 
     private fun fadeIn(target: View, durationMillis: Long): ObjectAnimator {
-        val anim = ObjectAnimator.ofFloat(target, View.ALPHA, 1F)
+        val anim = ObjectAnimator.ofFloat(target, View.ALPHA, 0f, 1F)
         anim.duration = durationMillis
         return anim
     }
 
     private fun fadeOut(target: View, durationMillis: Long): ObjectAnimator {
-        val anim = ObjectAnimator.ofFloat(target, View.ALPHA, 0f)
+        val anim = ObjectAnimator.ofFloat(target, View.ALPHA, 1f, 0f)
         anim.duration = durationMillis
         return anim
     }

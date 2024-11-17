@@ -20,7 +20,7 @@ import kotlin.random.Random
 
 class CatDisplayer : Activity() {
 
-    private val IntervalInSeconds = 13 * 60
+    private val IntervalInSeconds = 6 * 60
     private val DisplayLenghtInMillis = 1500L
     private val MinMarginDistance = 50
     private val CatServiceUrl = "https://cataas.com/cat"

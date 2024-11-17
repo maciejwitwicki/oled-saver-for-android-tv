@@ -9,12 +9,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyApplication">
+        android:theme="@style/Theme.MyApplication"
+        android:focusable="false"
+        android:clickable="false"
+        >
         <activity
             android:name="com.mwi.oledsaver.activity.MainActivity"
             android:theme="@style/Theme.Transparent"
             android:launchMode="singleTop"
-            android:exported="true">
+            android:exported="true"
+            android:focusable="false"
+            android:clickable="false"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,7 +29,18 @@
         <activity android:name=".activity.MaskerActivity"
             android:theme="@style/Theme.Transparent"
             android:launchMode="singleTop"
-            android:exported="true">
+            android:exported="true"
+            android:focusable="false"
+            android:clickable="false"
+            >
+        </activity>
+        <activity android:name=".exit.ExitActivity"
+            android:theme="@style/Theme.Transparent"
+            android:launchMode="singleTop"
+            android:exported="true"
+            android:focusable="false"
+            android:clickable="false"
+            >
         </activity>
 
         <receiver android:name=".activity.MaskerBroadcastReceiver" android:enabled="true">
