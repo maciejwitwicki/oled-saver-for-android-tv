@@ -12,7 +12,6 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     private val summerConfigDateRange = createSummerRange()
 
     override fun isEnabled(logDebug: Boolean): Boolean {
-        return true
         val now = getNow()
         val start = getOperatingRange().lower
         val end = getOperatingRange().upper
@@ -25,7 +24,7 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
 
     private fun logDates(now: ZonedDateTime, start: ZonedDateTime, end: ZonedDateTime) {
         val nowFormatted = now.format(TIME_FORMAT)
-        val startFormatted  = start.format(TIME_FORMAT)
+        val startFormatted = start.format(TIME_FORMAT)
         val endFormatted = end.format(TIME_FORMAT)
         Log.i(
             LOGGING_TAG,
@@ -81,7 +80,7 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
 
     companion object {
         val TIME_ZONE: ZoneId = ZoneId.of("Europe/Warsaw")
-        val TIME_FORMAT: DateTimeFormatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val TIME_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     }
 
 }
