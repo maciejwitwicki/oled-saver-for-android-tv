@@ -12,6 +12,7 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
     private val summerConfigDateRange = createSummerRange()
 
     override fun isEnabled(logDebug: Boolean): Boolean {
+        return true
         val now = getNow()
         val start = getOperatingRange().lower
         val end = getOperatingRange().upper

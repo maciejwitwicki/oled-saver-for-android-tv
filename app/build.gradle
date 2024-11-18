@@ -8,11 +8,11 @@ android {
     buildToolsVersion '35.0.0'
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_18
-        targetCompatibility JavaVersion.VERSION_18
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = '18'
+        jvmTarget = '21'
     }
 
     defaultConfig {
