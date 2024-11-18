@@ -20,6 +20,6 @@ class BoldStripeMasker(animationHelper: AnimationHelper)  {
 
     private fun startAnimator(view: View, durationSeconds: Int) {
         val component = view.findViewById<ShapeableImageView>(R.id.boldStripeBackground)
-        animator.start(view, component, durationSeconds)
+        animator.start(component, durationSeconds)
     }
 }
