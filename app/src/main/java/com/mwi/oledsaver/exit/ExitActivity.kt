@@ -4,45 +4,55 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.FragmentActivity
+import com.mwi.oledsaver.OledSaverApplication
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
+import com.mwi.oledsaver.alarm.AlarmDelay
+import com.mwi.oledsaver.alarm.MaskingAlarmManager
 
 class ExitActivity : FragmentActivity() {
+
+    private val maskingAlarmManager: MaskingAlarmManager = OledSaverApplication.ALARM_MANAGER
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(LOGGING_TAG, "${this.javaClass.simpleName} - create")
+        maskingAlarmManager.cancelNextExecution()
+
         setContentView(R.layout.activity_exit)
 
         findViewById<View>(R.id.exit_button_dismiss_5m)
             .setOnClickListener {
-                dismiss("5m")
+                dismiss(AlarmDelay.DELAY_5_MIN)
             }
         findViewById<View>(R.id.exit_button_dismiss_10m)
             .setOnClickListener {
-                dismiss("10m")
+                dismiss(AlarmDelay.DELAY_10_MIN)
+            }
+        findViewById<View>(R.id.exit_button_dismiss_1h)
+            .setOnClickListener {
+                dismiss(AlarmDelay.DELAY_1_H)
             }
         findViewById<View>(R.id.exit_button_dismiss_1d)
             .setOnClickListener {
-                dismiss("1d")
+                dismiss(AlarmDelay.DELAY_NEXT_DAY)
             }
 
             this.onBackPressedDispatcher
             .addCallback(this) {
                 Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Back pressed!")
-                dismiss("5m")
+                dismiss(AlarmDelay.DELAY_5_MIN)
                 finish()
             }
     }
 
 
-    private fun dismiss(text: String) {
-        Toast.makeText(this, "Odkladanie na ${text}", Toast.LENGTH_SHORT).show()
+    private fun dismiss(delay: AlarmDelay) {
+        Toast.makeText(this, "Odkladanie na $delay", Toast.LENGTH_SHORT).show()
+        maskingAlarmManager.scheduleNextAlarmExecution(delay)
         finish()
     }
 

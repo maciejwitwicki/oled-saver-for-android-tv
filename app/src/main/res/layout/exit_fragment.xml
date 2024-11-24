@@ -34,6 +34,13 @@
             android:text="Odłóż na 10 minut" />
 
         <Button
+            android:id="@+id/exit_button_dismiss_1h"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:drawableStart="@drawable/cat"
+            android:text="Odłóż na 1 godzinę" />
+
+        <Button
             android:id="@+id/exit_button_dismiss_1d"
             android:layout_width="200dp"
             android:layout_height="80dp"
