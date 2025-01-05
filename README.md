@@ -1,0 +1,1 @@
+adb -s 192.168.0.3:5555 logcat "oled-saver:* *:S"
