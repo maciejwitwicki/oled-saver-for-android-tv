@@ -8,10 +8,11 @@ import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
 
-class BoldStripeMasker(animationHelper: AnimationHelper)  {
+class BoldStripeMasker(animationHelper: AnimationHelper) {
 
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(
-        animationHelper, rotationDegree = 0.5f)
+        animationHelper, rotationDegree = 0.5f
+    )
 
     fun mask(view: View, durationSeconds: Int) {
         Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
@@ -21,5 +22,12 @@ class BoldStripeMasker(animationHelper: AnimationHelper)  {
     private fun startAnimator(view: View, durationSeconds: Int) {
         val component = view.findViewById<ShapeableImageView>(R.id.boldStripeBackground)
         animator.start(component, durationSeconds)
+    }
+
+    fun setVisible(view: View, boldStripe: Boolean) {
+        val component = view.findViewById<ShapeableImageView>(R.id.boldStripeBackground)
+        if (boldStripe) {
+            component.visibility = View.VISIBLE
+        } else component.visibility = View.INVISIBLE
     }
 }

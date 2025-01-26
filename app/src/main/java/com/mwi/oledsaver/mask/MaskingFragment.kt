@@ -6,11 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
-import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.exit.ExitActivity
@@ -30,6 +29,10 @@ class MaskingFragment : Fragment() {
     private val clockMasker = ClockMasker(animationHelper)
     private val logoMasker = LogoMasker(animationHelper)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
+
+    // Using the activityViewModels() Kotlin property delegate from the
+    // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
+    private val viewModel: ItemViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,5 +62,11 @@ class MaskingFragment : Fragment() {
         thinStripeMasker.mask(view, thinStripAnimationSpeed)
         ageRestrictionMasker.mask(view, ageRestrictionMaskerAnimationSpeed)
         CatDisplayer().mask(view)
+
+        viewModel.elementsState.observe(viewLifecycleOwner) { state ->
+            Log.i(LOGGING_TAG, "MaskingFragment received visibility state change $state")
+            boldStripeMasker.setVisible(view, state.boldStripe)
+
+        }
     }
 }
