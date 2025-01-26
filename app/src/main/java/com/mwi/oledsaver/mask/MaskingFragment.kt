@@ -1,18 +1,15 @@
 package com.mwi.oledsaver.mask
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
-import com.mwi.oledsaver.exit.ExitActivity
 
 class MaskingFragment : Fragment() {
 
@@ -45,15 +42,6 @@ class MaskingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner) {
-                Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Back pressed!")
-                val intent = Intent(requireContext(), ExitActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
-            }
 
         Log.i(LOGGING_TAG, "MaskingFragment onViewCreated")
         logoMasker.mask(view, logoMaskerAnimationSpeed)

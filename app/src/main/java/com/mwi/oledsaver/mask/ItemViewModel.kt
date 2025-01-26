@@ -13,4 +13,13 @@ class ItemViewModel : ViewModel() {
     }
 }
 
-data class MaskerVisibilityRequest(val boldStripe: Boolean)
+data class MaskerVisibilityRequest(val boldStripe: Boolean) {
+
+    fun invertBoldStripe(): MaskerVisibilityRequest {
+        return MaskerVisibilityRequest(!boldStripe)
+    }
+
+    companion object {
+        val AllVisible = MaskerVisibilityRequest(true)
+    }
+}
