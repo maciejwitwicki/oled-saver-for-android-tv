@@ -82,7 +82,7 @@ class CatDisplayer : Activity() {
     }
 
     private fun setupLayoutLocation(layout: FrameLayout, view: View) {
-        val container = view.findViewById<ConstraintLayout>(R.id.layoutContainer)
+        val container = view.findViewById<ConstraintLayout>(R.id.nav_host_fragment)
         val displayMetrics = container.resources.displayMetrics
         val containerWidth = (displayMetrics.widthPixels / displayMetrics.density).toInt()
         val containerHeight = (displayMetrics.heightPixels / displayMetrics.density).toInt()

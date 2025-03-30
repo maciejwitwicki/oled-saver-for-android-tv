@@ -9,9 +9,13 @@ import java.time.format.DateTimeFormatter
 
 class ConfigProvider : LayoutConfig, ApplicationConfig {
 
+    private val forceEnabled = false
     private val summerConfigDateRange = createSummerRange()
 
     override fun isEnabled(logDebug: Boolean): Boolean {
+        if (forceEnabled)
+            return true
+
         val now = getNow()
         val start = getOperatingRange().lower
         val end = getOperatingRange().upper

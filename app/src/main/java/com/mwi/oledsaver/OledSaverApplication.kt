@@ -1,8 +1,6 @@
 package com.mwi.oledsaver
 
 import android.app.Application
-import android.provider.Settings
-import android.util.Log
 import com.mwi.oledsaver.alarm.MaskingAlarmManager
 import com.mwi.oledsaver.config.ConfigProvider
 

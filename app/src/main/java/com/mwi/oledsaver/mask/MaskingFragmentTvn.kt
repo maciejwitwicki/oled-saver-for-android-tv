@@ -11,7 +11,9 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 
-class MaskingFragment : Fragment() {
+class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
+
+    private val name = this.javaClass.simpleName
 
     private val logoMaskerAnimationSpeed = 150
     private val clockMaskerAnimationSpeed = 140
@@ -35,15 +37,15 @@ class MaskingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(LOGGING_TAG, "MaskingFragment onCreateView")
+        Log.i(LOGGING_TAG, "$name onCreateView")
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.masking_fragment, container, false)
+        return inflater.inflate(R.layout.masking_fragment_tvn, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i(LOGGING_TAG, "MaskingFragment onViewCreated")
+        Log.i(LOGGING_TAG, "$name onViewCreated")
         logoMasker.mask(view, logoMaskerAnimationSpeed)
         clockMasker.mask(view, clockMaskerAnimationSpeed)
         boldStripeMasker.mask(view, boldStripeAnimationSpeed)
@@ -52,9 +54,8 @@ class MaskingFragment : Fragment() {
         CatDisplayer().mask(view)
 
         viewModel.elementsState.observe(viewLifecycleOwner) { state ->
-            Log.i(LOGGING_TAG, "MaskingFragment received visibility state change $state")
+            Log.i(LOGGING_TAG, "$name received visibility state change $state")
             boldStripeMasker.setVisible(view, state.boldStripe)
-
         }
     }
 }
