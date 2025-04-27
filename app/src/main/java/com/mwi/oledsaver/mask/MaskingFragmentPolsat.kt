@@ -42,15 +42,21 @@ class MaskingFragmentPolsat : Fragment(R.layout.masking_fragment_polsat) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.i(LOGGING_TAG, "[$name] onViewCreated")
+        viewModel.changeMaskerVisibility(MaskerVisibilityRequest.AllVisible)
+        startAllAnimations(view)
+
+        viewModel.elementsState.observe(viewLifecycleOwner) { state ->
+            Log.i(LOGGING_TAG, "[$name] received visibility state change $state")
+            startAllAnimations(view)
+            boldStripeMasker.setVisible(view, state.boldStripe)
+        }
+    }
+
+    private fun startAllAnimations(view: View) {
         logoMasker.mask(view, logoMaskerAnimationSpeed)
         boldStripeMasker.mask(view, boldStripeAnimationSpeed)
         ageRestrictionMasker.mask(view, ageRestrictionMaskerAnimationSpeed)
         CatDisplayer().mask(view)
-
-        viewModel.elementsState.observe(viewLifecycleOwner) { state ->
-            Log.i(LOGGING_TAG, "[$name] received visibility state change $state")
-            boldStripeMasker.setVisible(view, state.boldStripe)
-        }
     }
 
 }

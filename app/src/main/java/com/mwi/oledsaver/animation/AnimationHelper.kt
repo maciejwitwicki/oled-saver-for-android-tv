@@ -5,17 +5,14 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.graphics.Matrix
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.AlphaAnimation
-import com.mwi.oledsaver.R
-
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
 import com.google.android.material.imageview.ShapeableImageView
+import com.mwi.oledsaver.R
 import java.time.Duration
 import kotlin.random.Random
 
@@ -51,7 +48,7 @@ class AnimationHelper {
         rotationAnimator.duration = Duration.ofSeconds(i).toMillis()
 
         rotationAnimator.start()
-        return rotationAnimator;
+        return rotationAnimator
     }
 
     fun startBackgroundAnimator(imageView: ShapeableImageView, durationSeconds: Int) {
@@ -98,12 +95,12 @@ class AnimationHelper {
         val f = FloatArray(9)
         imageView.getImageMatrix().getValues(f)
         // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
-        val scaleX = f[Matrix.MSCALE_X];
+        val scaleX = f[Matrix.MSCALE_X]
         // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
-        val d = imageView.getDrawable();
-        val origW = d.intrinsicWidth;
+        val d = imageView.getDrawable()
+        val origW = d.intrinsicWidth
         // Calculate the actual dimensions
-        val actualImageWidth = Math.round(origW * scaleX);
+        val actualImageWidth = Math.round(origW * scaleX)
         val animationRange = actualImageWidth - imageView.width
 
         gradientTranslateAnimator.addUpdateListener { animation ->

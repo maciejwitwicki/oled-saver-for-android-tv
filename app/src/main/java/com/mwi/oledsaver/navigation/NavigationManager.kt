@@ -58,6 +58,10 @@ class NavigationManager(private val navigationController: NavController) {
         navigationController.navigate(ExitFragmentRoute)
     }
 
+    fun navigateToMasker() {
+        navigationController.navigate(navigationItems[currentItemIndex])
+    }
+
     private fun navigateIfIndexChanged(newIndex: Int) {
         if (newIndex != currentItemIndex) {
             currentItemIndex = newIndex

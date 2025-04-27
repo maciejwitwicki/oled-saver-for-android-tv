@@ -2,6 +2,7 @@ package com.mwi.oledsaver.mask
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
+
 
 class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
 
@@ -46,6 +48,31 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.i(LOGGING_TAG, "$name onViewCreated")
+        startAllAnimations(view)
+
+        viewModel.elementsState.observe(viewLifecycleOwner) { state ->
+            Log.i(LOGGING_TAG, "$name received visibility state change $state")
+            boldStripeMasker.setVisible(view, state.boldStripe)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.i(LOGGING_TAG, "$name onResume")
+
+
+        // Disable back press
+        requireView().setFocusableInTouchMode(true)
+        requireView().requestFocus()
+        requireView().setOnKeyListener(onKeyListener)
+
+        startAllAnimations(requireView())
+
+    }
+
+    private fun startAllAnimations(view: View) {
         logoMasker.mask(view, logoMaskerAnimationSpeed)
         clockMasker.mask(view, clockMaskerAnimationSpeed)
         boldStripeMasker.mask(view, boldStripeAnimationSpeed)
@@ -53,9 +80,23 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
         ageRestrictionMasker.mask(view, ageRestrictionMaskerAnimationSpeed)
         CatDisplayer().mask(view)
 
-        viewModel.elementsState.observe(viewLifecycleOwner) { state ->
-            Log.i(LOGGING_TAG, "$name received visibility state change $state")
-            boldStripeMasker.setVisible(view, state.boldStripe)
-        }
     }
+
+    private val onKeyListener =
+        { v: View, keyCode: Int, event: KeyEvent ->
+
+            Log.i(LOGGING_TAG, "[$name] onKeyListener!")
+
+
+            when (keyCode) {
+                KeyEvent.KEYCODE_DPAD_DOWN -> {
+                    Log.i(LOGGING_TAG, "[$name] Down pressed!")
+                    val elementState = viewModel.elementsState.value!!.invertBoldStripe()
+                    viewModel.changeMaskerVisibility(elementState)
+
+                }
+            }
+            false
+        }
+
 }

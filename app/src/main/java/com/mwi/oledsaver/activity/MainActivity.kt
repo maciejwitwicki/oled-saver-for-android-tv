@@ -1,7 +1,5 @@
 package com.mwi.oledsaver.activity
 
-import android.app.AlarmManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
@@ -10,8 +8,8 @@ import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.mwi.oledsaver.OledSaverApplication
-import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
 
 class MainActivity : FragmentActivity() {
 
@@ -24,12 +22,10 @@ class MainActivity : FragmentActivity() {
                 .build()
         )
 
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        OledSaverApplication.ALARM_MANAGER.initialize(applicationContext)
 
-        OledSaverApplication.ALARM_MANAGER.initialize(applicationContext, alarmManager)
-
-        val canDrawOverlays = Settings.canDrawOverlays(this);
-        Log.i(LOGGING_TAG, "Can draw overlays $canDrawOverlays");
+        val canDrawOverlays = Settings.canDrawOverlays(this)
+        Log.i(LOGGING_TAG, "Can draw overlays $canDrawOverlays")
 
         if (!canDrawOverlays) {
             val askForPermission = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)

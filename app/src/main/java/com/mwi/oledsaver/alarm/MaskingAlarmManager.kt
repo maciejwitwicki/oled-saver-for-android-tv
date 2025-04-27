@@ -10,22 +10,19 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.activity.MaskerBroadcastReceiver
 import com.mwi.oledsaver.config.ConfigProvider
 import java.time.Instant
-import java.time.ZonedDateTime
-import kotlin.time.Duration
 
 class MaskingAlarmManager(private val configProvider: ConfigProvider) {
 
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
 
-    fun initialize(context: Context?, alarmManager: AlarmManager) {
-        this.alarmManager = alarmManager
+    fun initialize(context: Context?) {
         this.pendingIntent = setPendingIntent(context)
-        this.scheduleNextExecution()
+        this.scheduleNextExecution(context)
     }
 
-    fun scheduleNextExecution() {
-        alarmManager.cancel(pendingIntent)
+    fun scheduleNextExecution(context: Context?) {
+        getAlarmManager(context).cancel(pendingIntent)
         scheduleNextAlarmExecution(AlarmDelay.DELAY_1_MIN)
     }
 
@@ -41,6 +38,11 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
             .format(ConfigProvider.TIME_FORMAT)
         Log.i(LOGGING_TAG, "scheduling Intent broadcast for $delay at $alarmDate")
         alarmManager.set(RTC, alarmTimeMillis, pendingIntent)
+    }
+
+    private fun getAlarmManager(context: Context?): AlarmManager {
+        this.alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        return this.alarmManager
     }
 
     private fun setPendingIntent(context: Context?): PendingIntent {
@@ -66,7 +68,7 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
     }
 
     private fun toMinutes(delay: AlarmDelay): Long {
-        return when(delay) {
+        return when (delay) {
             AlarmDelay.DELAY_1_MIN -> 1
             AlarmDelay.DELAY_5_MIN -> 5
             AlarmDelay.DELAY_10_MIN -> 10

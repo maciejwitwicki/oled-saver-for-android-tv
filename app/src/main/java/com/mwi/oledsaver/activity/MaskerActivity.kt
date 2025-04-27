@@ -63,23 +63,15 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KeyEvent.KEYCODE_DPAD_DOWN -> {
-                Log.i(LOGGING_TAG, "[$name] Down pressed!")
-                val elementState = viewModel.elementsState.value!!.invertBoldStripe()
-                viewModel.changeMaskerVisibility(elementState)
-                return true
-            }
+//            KeyEvent.KEYCODE_DPAD_DOWN -> {
+//                Log.i(LOGGING_TAG, "[$name] Down pressed!")
+//                val elementState = viewModel.elementsState.value!!.invertBoldStripe()
+//                viewModel.changeMaskerVisibility(elementState)
+//                return true
+//            }
 
             KeyEvent.KEYCODE_BACK -> {
-                Log.i(LOGGING_TAG, "[$name] Back pressed!")
-                if (exitFragmentDisplayed) {
-                    dismissMasker(AlarmDelay.DELAY_5_MIN)
-                } else {
-                    maskingAlarmManager.cancelNextExecution()
-                    navigationManager.navigateToExit()
-                }
-                exitFragmentDisplayed = !exitFragmentDisplayed
-                return true
+                return handleBackPressed()
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 Log.i(LOGGING_TAG, "[$name] Left pressed!")
@@ -97,7 +89,7 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: DismissMaskerEvent) {
-        dismissMasker(event.delay)
+        handleDismissEvent(event)
     }
 
     override fun onRestart() {
@@ -133,8 +125,27 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
         Log.i(LOGGING_TAG, "MaskerActivity - activityReenter")
     }
 
+    private fun handleBackPressed(): Boolean {
+        Log.i(LOGGING_TAG, "[$name] Back pressed!")
+        if (exitFragmentDisplayed) {
+            dismissMasker(AlarmDelay.DELAY_5_MIN)
+        } else {
+            maskingAlarmManager.cancelNextExecution()
+            navigationManager.navigateToExit()
+        }
+        exitFragmentDisplayed = !exitFragmentDisplayed
+        return true
+    }
+
+    private fun handleDismissEvent(event: DismissMaskerEvent) {
+        Log.i(LOGGING_TAG, "[$name] DismissMaskerEvent received")
+        exitFragmentDisplayed = false
+        navigationManager.navigateToMasker()
+        dismissMasker(event.delay)
+    }
+
     private fun dismissMasker(delay: AlarmDelay) {
-        Toast.makeText(this, "Odkladanie na $delay", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Odkładanie na ${delay.message}", Toast.LENGTH_SHORT).show()
         maskingAlarmManager.scheduleNextAlarmExecution(delay)
         finish()
     }

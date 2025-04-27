@@ -1,6 +1,5 @@
 package com.mwi.oledsaver.animation
 
-import android.view.View
 import com.google.android.material.imageview.ShapeableImageView
 
 class MaskerAnimatorManager(

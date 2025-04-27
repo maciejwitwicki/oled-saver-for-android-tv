@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ItemViewModel : ViewModel() {
+class ItemViewModel() : ViewModel() {
+
     private val mutableElementsState = MutableLiveData<MaskerVisibilityRequest>()
     val elementsState: LiveData<MaskerVisibilityRequest> get() = mutableElementsState
 
@@ -12,6 +13,7 @@ class ItemViewModel : ViewModel() {
         mutableElementsState.value = item
     }
 }
+
 
 data class MaskerVisibilityRequest(val boldStripe: Boolean) {
 
