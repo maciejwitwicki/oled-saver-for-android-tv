@@ -17,14 +17,9 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
 
     private val name = this.javaClass.simpleName
 
-    private val logoMaskerAnimationSpeed = 150
-    private val clockMaskerAnimationSpeed = 140
-    private val boldStripeAnimationSpeed = 60
-    private val thinStripAnimationSpeed = 120
-    private val ageRestrictionMaskerAnimationSpeed = 90
-
     private val animationHelper = AnimationHelper()
 
+    private val maskingTitle = MaskingTitle(animationHelper, "TVN")
     private val boldStripeMasker = BoldStripeMasker(animationHelper)
     private val thinStripeMasker = ThinStripeMasker(animationHelper)
     private val clockMasker = ClockMasker(animationHelper)
@@ -73,11 +68,12 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
     }
 
     private fun startAllAnimations(view: View) {
-        logoMasker.mask(view, logoMaskerAnimationSpeed)
-        clockMasker.mask(view, clockMaskerAnimationSpeed)
-        boldStripeMasker.mask(view, boldStripeAnimationSpeed)
-        thinStripeMasker.mask(view, thinStripAnimationSpeed)
-        ageRestrictionMasker.mask(view, ageRestrictionMaskerAnimationSpeed)
+        maskingTitle.show(view)
+        logoMasker.mask(view)
+        clockMasker.mask(view)
+        boldStripeMasker.mask(view)
+        thinStripeMasker.mask(view)
+        ageRestrictionMasker.mask(view)
         CatDisplayer().mask(view)
 
     }

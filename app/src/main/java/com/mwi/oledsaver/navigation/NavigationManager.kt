@@ -9,6 +9,7 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.exit.ExitFragment
 import com.mwi.oledsaver.mask.MaskingFragmentPolsat
 import com.mwi.oledsaver.mask.MaskingFragmentTvn
+import com.mwi.oledsaver.mask.MaskingFragmentTvp2
 import kotlinx.serialization.Serializable
 
 class NavigationManager(private val navigationController: NavController) {
@@ -20,10 +21,13 @@ class NavigationManager(private val navigationController: NavController) {
     data object MaskPolsatRoute
 
     @Serializable
+    data object MaskTvp2Route
+
+    @Serializable
     data object ExitFragmentRoute
 
-    private val navigationItems = listOf(MaskTvnRoute, MaskPolsatRoute)
-    private var currentItemIndex = 0
+    private val navigationItems = listOf(MaskTvp2Route, MaskTvnRoute, MaskPolsatRoute)
+    private var currentItemIndex = 1
 
     init {
 
@@ -35,6 +39,9 @@ class NavigationManager(private val navigationController: NavController) {
             }
             fragment<MaskingFragmentPolsat, MaskPolsatRoute> {
                 label = "PolsatMask"
+            }
+            fragment<MaskingFragmentTvp2, MaskTvp2Route> {
+                label = "Tvp2Mask"
             }
             fragment<ExitFragment, ExitFragmentRoute> {
                 label = "ExitFragment"

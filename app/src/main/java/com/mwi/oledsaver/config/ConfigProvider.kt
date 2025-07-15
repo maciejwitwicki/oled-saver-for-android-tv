@@ -7,10 +7,9 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class ConfigProvider : LayoutConfig, ApplicationConfig {
+class ConfigProvider : ApplicationConfig {
 
-    private val forceEnabled = false
-    private val summerConfigDateRange = createSummerRange()
+    private val forceEnabled = true
 
     override fun isEnabled(logDebug: Boolean): Boolean {
         if (forceEnabled)
@@ -50,36 +49,8 @@ class ConfigProvider : LayoutConfig, ApplicationConfig {
         return Range(start, end)
     }
 
-    override fun getClockMaskerConfig(): LayoutConfig.ClockMaskerLayoutSetup {
-        return getConfig().getClockMaskerConfig()
-    }
-
-    override fun getLogoMaskerLayoutSetup(): LayoutConfig.LogoMaskerLayoutSetup {
-        return getConfig().getLogoMaskerLayoutSetup()
-    }
-
     override fun getNow(): ZonedDateTime {
         return ZonedDateTime.now(TIME_ZONE)
-    }
-
-    private fun getConfig(): LayoutConfig {
-        val now = getNow()
-        return if (now.isAfter(summerConfigDateRange.lower) && now.isBefore(summerConfigDateRange.upper)
-        ) {
-            SummerLayoutConfig()
-        } else {
-            DefaultLayoutConfig()
-        }
-    }
-
-    private fun createSummerRange(): Range<ZonedDateTime> {
-        val start = getNow().withMonth(6).withDayOfMonth(29)
-            .withHour(0).withMinute(0).withSecond(0)
-
-        val end = getNow().withMonth(9)
-            .withHour(0).withMinute(0).withSecond(0)
-
-        return Range(start, end)
     }
 
     companion object {

@@ -5,23 +5,21 @@ import android.view.View
 import com.google.android.material.imageview.ShapeableImageView
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
-import com.mwi.oledsaver.activity.MainActivity
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
-import com.mwi.oledsaver.config.LayoutConfig
 
-class ClockMasker(
-    private val animationHelper: AnimationHelper) {
+class ClockMasker(animationHelper: AnimationHelper) {
 
+    private val animationSpeed = 140
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
-    fun mask(view: View, durationSeconds: Int) {
+    fun mask(view: View) {
         Log.i(LOGGING_TAG, "Run Clock Masker")
-        startAnimator(view, durationSeconds)
+        startAnimator(view)
     }
 
-    private fun startAnimator(view: View, durationSeconds: Int) {
+    private fun startAnimator(view: View) {
         val component = view.findViewById<ShapeableImageView>(R.id.circleClockBackground)
-        animator.start(component, durationSeconds)
+        animator.start(component, animationSpeed)
     }
 }

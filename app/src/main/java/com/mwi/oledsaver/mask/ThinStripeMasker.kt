@@ -10,16 +10,17 @@ import com.mwi.oledsaver.animation.MaskerAnimatorManager
 
 class ThinStripeMasker(animationHelper: AnimationHelper) {
 
+    private val animationSpeed = 120
     private val animator: MaskerAnimatorManager =
         MaskerAnimatorManager(animationHelper, rotationDegree = 0.5f)
 
-    fun mask(view: View, durationSeconds: Int) {
+    fun mask(view: View) {
         Log.i(LOGGING_TAG, "Run Thin Stripe Masker")
-        startAnimator(view, durationSeconds)
+        startAnimator(view)
     }
 
-    private fun startAnimator(view: View, durationSeconds: Int) {
+    private fun startAnimator(view: View) {
         val component = view.findViewById<ShapeableImageView>(R.id.thinStripeBackground)
-        animator.start(component, durationSeconds)
+        animator.start(component, animationSpeed)
     }
 }

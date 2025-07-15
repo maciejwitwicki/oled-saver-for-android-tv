@@ -9,9 +9,10 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 class BootBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.i(LOGGING_TAG, "BootBroadcastReceiver - Received broadcast intent")
-
-        val i = Intent(context, MainActivity::class.java)
-        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        context!!.startActivity(i)
+        if (intent != null && (intent.action == "BOOT_COMPLETED" || intent.action == "QUICKBOOT_POWERON")) {
+            val i = Intent(context, MainActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP + Intent.FLAG_ACTIVITY_NEW_TASK)
+            context!!.startActivity(i)
+        }
     }
 }

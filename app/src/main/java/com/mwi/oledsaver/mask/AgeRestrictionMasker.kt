@@ -8,18 +8,19 @@ import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
 
-class AgeRestrictionMasker(private val animationHelper: AnimationHelper) {
+class AgeRestrictionMasker(animationHelper: AnimationHelper) {
 
+    private val animationSpeed = 90
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
-    fun mask(view: View, durationSeconds: Int) {
+    fun mask(view: View) {
         Log.i(LOGGING_TAG, "Run Age restriction Masker")
-        startAnimator(view, durationSeconds)
+        startAnimator(view)
     }
 
-    private fun startAnimator(view: View, durationSeconds: Int) {
+    private fun startAnimator(view: View) {
         val component = view.findViewById<ShapeableImageView>(R.id.ageRestrictiondBackground)
-        animator.start(component, durationSeconds)
+        animator.start(component, animationSpeed)
     }
 
 }

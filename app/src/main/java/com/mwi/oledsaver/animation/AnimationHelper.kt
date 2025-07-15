@@ -41,7 +41,7 @@ class AnimationHelper {
     ): ValueAnimator {
         val rotationAnimator = ObjectAnimator.ofFloat(layout, View.ROTATION, maxDegree)
         rotationAnimator.repeatCount = ObjectAnimator.INFINITE
-        rotationAnimator.repeatMode = ObjectAnimator.REVERSE
+        rotationAnimator.repeatMode = REVERSE
         rotationAnimator.startDelay = Random.nextLong(10_000)
         rotationAnimator.interpolator = BounceInterpolator()
         val i: Long = (durationSeconds.toLong() / 2)
@@ -105,7 +105,7 @@ class AnimationHelper {
 
         gradientTranslateAnimator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
-            val paddingStart = (progress * animationRange).toInt();
+            val paddingStart = (progress * animationRange).toInt()
 
             val end = imageView.contentPaddingEnd
             val top = imageView.contentPaddingTop
@@ -143,7 +143,7 @@ class AnimationHelper {
         return anim
     }
 
-    private fun fadeOut(target: View, durationMillis: Long): ObjectAnimator {
+    fun fadeOut(target: View, durationMillis: Long): ObjectAnimator {
         val anim = ObjectAnimator.ofFloat(target, View.ALPHA, 1f, 0f)
         anim.duration = durationMillis
         return anim

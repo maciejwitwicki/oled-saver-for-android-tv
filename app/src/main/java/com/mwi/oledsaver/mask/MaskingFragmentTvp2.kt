@@ -11,15 +11,15 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 
-class MaskingFragmentPolsat : Fragment(R.layout.masking_fragment_polsat) {
+class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_polsat) {
 
     private val name = this.javaClass.simpleName
 
     private val animationHelper = AnimationHelper()
 
-    private val maskingTitle = MaskingTitle(animationHelper, "Polsat")
-    private val boldStripeMasker = BoldStripeMasker(animationHelper)
-    private val logoMasker = LogoMasker(animationHelper)
+    private val maskingTitle = MaskingTitle(animationHelper, "TVP2")
+    private val boldStripeMasker = BoldStripeMasker(animationHelper, 10)
+    private val logoMasker = LogoMasker(animationHelper, left = 120f)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     // Using the activityViewModels() Kotlin property delegate from the
