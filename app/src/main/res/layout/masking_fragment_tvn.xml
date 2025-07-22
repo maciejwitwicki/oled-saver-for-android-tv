@@ -7,11 +7,10 @@
     tools:context="com.mwi.oledsaver.mask.MaskingFragmentTvn">
 
     <include layout="@layout/mask_title" />
-    <include layout="@layout/mask_logo" />
+    <include layout="@layout/mask_logo_tvn" />
     <include layout="@layout/mask_age_restriction" />
     <include layout="@layout/mask_stripe_bold" />
     <include layout="@layout/mask_stripe_slim" />
     <include layout="@layout/mask_clock" />
-    <include layout="@layout/mask_cats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

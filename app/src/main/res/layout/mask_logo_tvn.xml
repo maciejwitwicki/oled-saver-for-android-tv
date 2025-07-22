@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/logoMasker"
+    android:id="@+id/logoMaskerTvn"
     android:layout_width="130dp"
     android:layout_height="130dp"
     android:layout_marginStart="37dp"
@@ -10,36 +10,32 @@
     android:alpha="1"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:showIn="@layout/masking_fragment">
+    >
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/bigLogoCircle"
+        android:id="@+id/bigLogoCircleTvn"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="30dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="center"
         android:src="@drawable/oled"
-        app:shapeAppearanceOverlay="@style/circleImageView"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/smallLogoCircle"
+        android:id="@+id/smallLogoCircleTvn"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="center"
         android:src="@drawable/oled"
-        app:shapeAppearanceOverlay="@style/circleImageView"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

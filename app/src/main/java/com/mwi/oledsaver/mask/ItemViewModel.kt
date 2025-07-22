@@ -1,10 +1,12 @@
 package com.mwi.oledsaver.mask
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 
-class ItemViewModel() : ViewModel() {
+
+class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mutableElementsState = MutableLiveData<MaskerVisibilityRequest>()
     val elementsState: LiveData<MaskerVisibilityRequest> get() = mutableElementsState
@@ -12,6 +14,7 @@ class ItemViewModel() : ViewModel() {
     fun changeMaskerVisibility(item: MaskerVisibilityRequest) {
         mutableElementsState.value = item
     }
+
 }
 
 

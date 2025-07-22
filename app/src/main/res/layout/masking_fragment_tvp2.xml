@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/masking_fragment_tvp2"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+
     tools:context="com.mwi.oledsaver.mask.MaskingFragmentTvp2">
 
     <include layout="@layout/mask_title" />
-    <include layout="@layout/mask_logo" />
+    <include layout="@layout/mask_logo_tvp2" />
     <include layout="@layout/mask_age_restriction" />
     <include layout="@layout/mask_stripe_bold" />
-    <include layout="@layout/mask_cats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

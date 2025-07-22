@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.mwi.oledsaver.OledSaverApplication
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
@@ -20,14 +21,16 @@ import com.mwi.oledsaver.event.DismissMaskerEvent
 import com.mwi.oledsaver.mask.ItemViewModel
 import com.mwi.oledsaver.mask.MaskerVisibilityRequest
 import com.mwi.oledsaver.navigation.NavigationManager
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
 class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
-    
+
     private val name = this.javaClass.simpleName
+
     // Using the viewModels() Kotlin property delegate from the activity-ktx
     // artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: ItemViewModel by viewModels()
@@ -53,7 +56,16 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navigationManager = NavigationManager(navHostFragment.navController)
+
+            val settings = (application as OledSaverApplication).settingsRepository
+
+            lifecycleScope.launch {
+                settings.maskIndex
+                    .collect { index ->
+                        navigationManager = NavigationManager(settings, index,navHostFragment.navController)
+                    }
+
+            }
 
         } else {
             Log.i(LOGGING_TAG, "MaskerActivity - out of operating hours, quitting")
@@ -73,14 +85,20 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
             KeyEvent.KEYCODE_BACK -> {
                 return handleBackPressed()
             }
+
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 Log.i(LOGGING_TAG, "[$name] Left pressed!")
-                navigationManager.navigateLeft()
+                lifecycleScope.launch {
+                    navigationManager.navigateLeft()
+                }
                 return true
             }
+
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 Log.i(LOGGING_TAG, "[$name] Right pressed!")
-                navigationManager.navigateRight()
+                lifecycleScope.launch {
+                    navigationManager.navigateRight()
+                }
                 return true
             }
         }
@@ -89,6 +107,7 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: DismissMaskerEvent) {
+        Log.i(LOGGING_TAG, "[$name] DismissMaskerEvent received")
         handleDismissEvent(event)
     }
 
@@ -128,7 +147,7 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
     private fun handleBackPressed(): Boolean {
         Log.i(LOGGING_TAG, "[$name] Back pressed!")
         if (exitFragmentDisplayed) {
-            dismissMasker(AlarmDelay.DELAY_5_MIN)
+            handleDismissEvent(DismissMaskerEvent(AlarmDelay.DELAY_5_MIN))
         } else {
             maskingAlarmManager.cancelNextExecution()
             navigationManager.navigateToExit()
@@ -138,10 +157,13 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
     }
 
     private fun handleDismissEvent(event: DismissMaskerEvent) {
-        Log.i(LOGGING_TAG, "[$name] DismissMaskerEvent received")
         exitFragmentDisplayed = false
         navigationManager.navigateToMasker()
         dismissMasker(event.delay)
+        val settings = (application as OledSaverApplication).settingsRepository
+        lifecycleScope.launch {
+            settings.setStartedDate(null)
+        }
     }
 
     private fun dismissMasker(delay: AlarmDelay) {

@@ -9,8 +9,14 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
+import com.mwi.oledsaver.mask.LayoutUtils.getDpValue
 
-class BoldStripeMasker(animationHelper: AnimationHelper, private val marginRight: Int? = 130) {
+class BoldStripeMasker(
+    animationHelper: AnimationHelper,
+    private val marginRight: Int = 130,
+    private val bottom: Float = 58f,
+    private val height: Float = 90f
+) {
 
     private val animationSpeed = 60
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(
@@ -20,16 +26,18 @@ class BoldStripeMasker(animationHelper: AnimationHelper, private val marginRight
     fun mask(view: View) {
         Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
         startAnimator(view)
-        if (marginRight != null) {
-            val layout = view.findViewById<ConstraintLayout>(R.id.boldStripeMasker)
-            val params = layout.layoutParams
-            when (params) {
-                is ViewGroup.MarginLayoutParams -> {
-                    params.marginEnd = marginRight
-                }
+
+        val layout = view.findViewById<ConstraintLayout>(R.id.boldStripeMasker)
+        val params = layout.layoutParams
+        when (params) {
+            is ViewGroup.MarginLayoutParams -> {
+                params.marginEnd = marginRight
+                params.bottomMargin = getDpValue(bottom, layout)
+                params.height = getDpValue(height, layout)
             }
-            layout.layoutParams = params
         }
+        layout.layoutParams = params
+
     }
 
     private fun startAnimator(view: View) {

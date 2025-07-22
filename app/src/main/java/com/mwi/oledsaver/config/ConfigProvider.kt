@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 
 class ConfigProvider : ApplicationConfig {
 
-    private val forceEnabled = true
+    private val forceEnabled = false
 
     override fun isEnabled(logDebug: Boolean): Boolean {
         if (forceEnabled)
@@ -42,7 +42,7 @@ class ConfigProvider : ApplicationConfig {
 
     override fun getOperatingRange(): Range<ZonedDateTime> {
         val start = getNow().withHour(7)
-            .withMinute(45).withSecond(0)
+            .withMinute(10).withSecond(0)
         val end = getNow().withHour(12)
             .withMinute(0).withSecond(0)
 

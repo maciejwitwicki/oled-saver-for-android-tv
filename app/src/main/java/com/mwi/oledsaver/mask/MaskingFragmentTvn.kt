@@ -23,7 +23,7 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
     private val boldStripeMasker = BoldStripeMasker(animationHelper)
     private val thinStripeMasker = ThinStripeMasker(animationHelper)
     private val clockMasker = ClockMasker(animationHelper)
-    private val logoMasker = LogoMasker(animationHelper)
+    private val logoMaskerTvn = LogoMaskerTvn(animationHelper)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     // Using the activityViewModels() Kotlin property delegate from the
@@ -69,13 +69,11 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
 
     private fun startAllAnimations(view: View) {
         maskingTitle.show(view)
-        logoMasker.mask(view)
+        logoMaskerTvn.mask(view)
         clockMasker.mask(view)
         boldStripeMasker.mask(view)
         thinStripeMasker.mask(view)
         ageRestrictionMasker.mask(view)
-        CatDisplayer().mask(view)
-
     }
 
     private val onKeyListener =

@@ -16,6 +16,8 @@ buildscript {
 
 plugins {
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+    id "com.google.protobuf" version "0.9.5" apply false
+
 }
 
 allprojects {
@@ -25,6 +27,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

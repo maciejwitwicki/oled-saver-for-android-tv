@@ -11,15 +11,15 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 
-class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_polsat) {
+class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_tvp2) {
 
     private val name = this.javaClass.simpleName
 
     private val animationHelper = AnimationHelper()
 
     private val maskingTitle = MaskingTitle(animationHelper, "TVP2")
-    private val boldStripeMasker = BoldStripeMasker(animationHelper, 10)
-    private val logoMasker = LogoMasker(animationHelper, left = 120f)
+    private val boldStripeMasker = BoldStripeMasker(animationHelper, 20, bottom = 20f, height = 100f)
+    private val logoMaskerTvp2 = LogoMaskerTvp2(animationHelper, bottom = 36f, left = 50f)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     // Using the activityViewModels() Kotlin property delegate from the
@@ -32,7 +32,7 @@ class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_polsat) {
     ): View? {
         Log.i(LOGGING_TAG, "[$name] onCreateView")
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.masking_fragment_polsat, container, false)
+        return inflater.inflate(R.layout.masking_fragment_tvp2, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,10 +51,9 @@ class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_polsat) {
 
     private fun startAllAnimations(view: View) {
         maskingTitle.show(view)
-        logoMasker.mask(view)
+        logoMaskerTvp2.mask(view)
         boldStripeMasker.mask(view)
         ageRestrictionMasker.mask(view)
-        CatDisplayer().mask(view)
     }
 
 }

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.mwi.oledsaver.proto";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+message Settings {
+  google.protobuf.Timestamp started = 1;
+  int32 mask_index = 2;
+}

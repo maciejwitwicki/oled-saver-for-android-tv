@@ -19,7 +19,7 @@ class MaskingFragmentPolsat : Fragment(R.layout.masking_fragment_polsat) {
 
     private val maskingTitle = MaskingTitle(animationHelper, "Polsat")
     private val boldStripeMasker = BoldStripeMasker(animationHelper)
-    private val logoMasker = LogoMasker(animationHelper)
+    private val logoMaskerTvn = LogoMaskerTvn(animationHelper)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     // Using the activityViewModels() Kotlin property delegate from the
@@ -51,10 +51,9 @@ class MaskingFragmentPolsat : Fragment(R.layout.masking_fragment_polsat) {
 
     private fun startAllAnimations(view: View) {
         maskingTitle.show(view)
-        logoMasker.mask(view)
+        logoMaskerTvn.mask(view)
         boldStripeMasker.mask(view)
         ageRestrictionMasker.mask(view)
-        CatDisplayer().mask(view)
     }
 
 }

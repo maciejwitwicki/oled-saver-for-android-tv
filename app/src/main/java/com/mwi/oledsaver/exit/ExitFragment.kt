@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.alarm.AlarmDelay
 import com.mwi.oledsaver.event.DismissMaskerEvent
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 
 
@@ -55,6 +57,9 @@ class ExitFragment : Fragment(R.layout.exit_fragment) {
     }
 
     private fun dismiss(delay: AlarmDelay) {
+        lifecycleScope.launch {
+
+        }
         EventBus.getDefault().post(DismissMaskerEvent(delay))
     }
 

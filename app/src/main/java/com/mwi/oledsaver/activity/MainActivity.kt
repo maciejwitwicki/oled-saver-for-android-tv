@@ -7,9 +7,15 @@ import android.os.StrictMode.VmPolicy
 import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.mwi.oledsaver.OledSaverApplication
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+
 
 class MainActivity : FragmentActivity() {
 
@@ -32,14 +38,33 @@ class MainActivity : FragmentActivity() {
             startActivity(askForPermission)
         }
 
-        if (MASK_APP_CONFIG.isEnabled()) {
-            Log.i(LOGGING_TAG, "MainActivity - started")
-            val intent = Intent(this, MaskerActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-            Log.i(LOGGING_TAG, "MainActivity - Out of operating hours, finishing")
-            finishAndRemoveTask()
+        val settings = (application as OledSaverApplication).settingsRepository
+        val intent = Intent(this, MaskerActivity::class.java)
+
+        lifecycleScope.launch {
+            settings.started.collect { started ->
+                if (MASK_APP_CONFIG.isEnabled()
+                    && !wasStartedToday(started)
+                    ) {
+                    Log.i(LOGGING_TAG, "MainActivity - started")
+                    startActivity(intent)
+                    settings.setStartedDate(Instant.now())
+                    finish()
+                } else {
+                    Log.i(LOGGING_TAG, "MainActivity - Out of operating hours or already started, finishing")
+                    finishAndRemoveTask()
+                }
+            }
+
+
         }
+
+
+    }
+
+    private fun wasStartedToday(started: Instant): Boolean {
+        val ld1 = LocalDateTime.ofInstant(started, ZoneId.systemDefault()).toLocalDate().dayOfMonth
+        val ld2 = LocalDateTime.now().dayOfMonth
+        return ld1 == ld2
     }
 }

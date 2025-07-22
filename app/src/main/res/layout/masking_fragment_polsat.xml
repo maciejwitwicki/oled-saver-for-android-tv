@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.mwi.oledsaver.mask.MaskingFragmentPolsat">
 
-    <include layout="@layout/mask_logo" />
+    <include layout="@layout/mask_logo_tvn" />
     <include layout="@layout/mask_title" />
     <include layout="@layout/mask_age_restriction" />
     <include layout="@layout/mask_stripe_bold" />
-    <include layout="@layout/mask_cats" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
