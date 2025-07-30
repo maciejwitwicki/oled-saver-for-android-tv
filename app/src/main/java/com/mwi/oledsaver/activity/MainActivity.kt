@@ -43,9 +43,7 @@ class MainActivity : FragmentActivity() {
 
         lifecycleScope.launch {
             settings.started.collect { started ->
-                if (MASK_APP_CONFIG.isEnabled()
-                    && !wasStartedToday(started)
-                    ) {
+                if (MASK_APP_CONFIG.isEnabled(started = started)                    ) {
                     Log.i(LOGGING_TAG, "MainActivity - started")
                     startActivity(intent)
                     settings.setStartedDate(Instant.now())
@@ -60,11 +58,5 @@ class MainActivity : FragmentActivity() {
         }
 
 
-    }
-
-    private fun wasStartedToday(started: Instant): Boolean {
-        val ld1 = LocalDateTime.ofInstant(started, ZoneId.systemDefault()).toLocalDate().dayOfMonth
-        val ld2 = LocalDateTime.now().dayOfMonth
-        return ld1 == ld2
     }
 }

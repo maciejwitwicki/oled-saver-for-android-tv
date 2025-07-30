@@ -51,26 +51,22 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
         Log.i(LOGGING_TAG, "MaskerActivity - create")
 
-        if (MASK_APP_CONFIG.isEnabled(true)) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
-            val settings = (application as OledSaverApplication).settingsRepository
+        val settings = (application as OledSaverApplication).settingsRepository
 
-            lifecycleScope.launch {
-                settings.maskIndex
-                    .collect { index ->
-                        navigationManager = NavigationManager(settings, index,navHostFragment.navController)
-                    }
+        lifecycleScope.launch {
+            settings.maskIndex
+                .collect { index ->
+                    navigationManager =
+                        NavigationManager(settings, index, navHostFragment.navController)
+                }
 
-            }
-
-        } else {
-            Log.i(LOGGING_TAG, "MaskerActivity - out of operating hours, quitting")
-            finishAndRemoveTask()
         }
+
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

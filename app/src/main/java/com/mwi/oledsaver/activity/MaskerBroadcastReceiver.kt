@@ -12,7 +12,7 @@ class MaskerBroadcastReceiver : BroadcastReceiver() {
         Log.i(LOGGING_TAG, "MaskerBroadcastReceiver - Received broadcast intent")
 
         //OledSaverApplication.ALARM_MANAGER.scheduleNextExecution(context)
-        val restoreActivityIntent = Intent(context, MaskerActivity::class.java)
+        val restoreActivityIntent = Intent(context, MainActivity::class.java)
         restoreActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val activityOptions = ActivityOptions.makeBasic()
         // will be required in android 34

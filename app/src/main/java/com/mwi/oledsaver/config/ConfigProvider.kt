@@ -3,17 +3,23 @@ package com.mwi.oledsaver.config
 import android.util.Log
 import android.util.Range
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
+import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 class ConfigProvider : ApplicationConfig {
 
-    private val forceEnabled = false
+    private val forceEnabled = true
 
-    override fun isEnabled(logDebug: Boolean): Boolean {
+    override fun isEnabled(logDebug: Boolean, started: Instant): Boolean {
         if (forceEnabled)
             return true
+
+        if (wasStartedToday(started)) {
+            return false;
+        }
 
         val now = getNow()
         val start = getOperatingRange().lower
@@ -51,6 +57,12 @@ class ConfigProvider : ApplicationConfig {
 
     override fun getNow(): ZonedDateTime {
         return ZonedDateTime.now(TIME_ZONE)
+    }
+
+    private fun wasStartedToday(started: Instant): Boolean {
+        val ld1 = LocalDateTime.ofInstant(started, ZoneId.systemDefault()).toLocalDate().dayOfMonth
+        val ld2 = LocalDateTime.now().dayOfMonth
+        return ld1 == ld2
     }
 
     companion object {

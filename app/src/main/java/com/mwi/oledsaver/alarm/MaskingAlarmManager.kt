@@ -13,12 +13,14 @@ import java.time.Instant
 
 class MaskingAlarmManager(private val configProvider: ConfigProvider) {
 
+    private val name = this.javaClass.simpleName
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
 
     fun initialize(context: Context?) {
         this.pendingIntent = setPendingIntent(context)
         this.scheduleNextExecution(context)
+        Log.i(LOGGING_TAG, "[$name] initialize")
     }
 
     fun scheduleNextExecution(context: Context?) {
@@ -57,10 +59,10 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
     }
 
     private fun getNextAlarmTimeMillis(delay: AlarmDelay): Long {
-        if (delay == AlarmDelay.DELAY_NEXT_DAY || !configProvider.isEnabled()) {
-            return getNextDayExecutionTimeMillis()
+        return if (delay == AlarmDelay.DELAY_NEXT_DAY) {
+            getNextDayExecutionTimeMillis()
         } else {
-            return configProvider.getNow()
+            configProvider.getNow()
                 .plusMinutes(toMinutes(delay))
                 .toInstant()
                 .toEpochMilli()

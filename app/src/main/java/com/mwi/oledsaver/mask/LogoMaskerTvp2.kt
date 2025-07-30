@@ -2,6 +2,7 @@ package com.mwi.oledsaver.mask
 
 import android.util.Log
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
@@ -23,8 +24,8 @@ class LogoMaskerTvp2(
     fun mask(view: View) {
         Log.i(LOGGING_TAG, "Run Logo Masker")
         startAnimator(view)
-        val logoMasker = view.findViewById<ConstraintLayout>(R.id.logoMaskerTvp2)
-        val params = view.layoutParams
+        val logoMasker = view.findViewById<RelativeLayout>(R.id.logoMaskerTvp2)
+        val params = logoMasker.layoutParams
         val updatedParams = ConstraintLayout.LayoutParams(params)
 
         updatedParams.setMargins(
@@ -33,7 +34,6 @@ class LogoMaskerTvp2(
             updatedParams.rightMargin,
             getDpValue(bottom, view)
         )
-        updatedParams.bottomToBottom = 1
         logoMasker.layoutParams = updatedParams
 
     }
