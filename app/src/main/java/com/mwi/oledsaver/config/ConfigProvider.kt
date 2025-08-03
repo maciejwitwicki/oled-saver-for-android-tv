@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class ConfigProvider : ApplicationConfig {
 
-    private val forceEnabled = true
+    private val forceEnabled = false
 
     override fun isEnabled(logDebug: Boolean, started: Instant): Boolean {
         if (forceEnabled)

@@ -24,7 +24,7 @@ class BoldStripeMasker(
     )
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
+//        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
         startAnimator(view)
 
         val layout = view.findViewById<ConstraintLayout>(R.id.boldStripeMasker)

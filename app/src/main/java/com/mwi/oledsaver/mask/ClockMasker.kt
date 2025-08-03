@@ -14,7 +14,7 @@ class ClockMasker(animationHelper: AnimationHelper) {
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Clock Masker")
+//        Log.i(LOGGING_TAG, "Run Clock Masker")
         startAnimator(view)
     }
 

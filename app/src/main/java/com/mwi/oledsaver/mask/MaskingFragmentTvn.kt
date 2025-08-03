@@ -30,14 +30,15 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
     // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: ItemViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.i(LOGGING_TAG, "$name onCreateView")
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.masking_fragment_tvn, container, false)
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        Log.i(LOGGING_TAG, "$name onCreateView")
+//        // Inflate the layout for this fragment
+//        //return inflater.inflate(R.layout.masking_fragment_tvn_old2relat, container, false)
+//        return null
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

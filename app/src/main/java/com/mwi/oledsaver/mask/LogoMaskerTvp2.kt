@@ -22,9 +22,9 @@ class LogoMaskerTvp2(
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper, 3f)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Logo Masker")
+//        Log.i(LOGGING_TAG, "Run Logo Masker")
         startAnimator(view)
-        val logoMasker = view.findViewById<RelativeLayout>(R.id.logoMaskerTvp2)
+        val logoMasker = view.findViewById<ConstraintLayout>(R.id.logoMaskerTvp2)
         val params = logoMasker.layoutParams
         val updatedParams = ConstraintLayout.LayoutParams(params)
 

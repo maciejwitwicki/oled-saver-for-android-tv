@@ -2,6 +2,7 @@ package com.mwi.oledsaver.mask
 
 import android.util.Log
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
@@ -11,29 +12,14 @@ import com.mwi.oledsaver.animation.MaskerAnimatorManager
 import com.mwi.oledsaver.mask.LayoutUtils.getDpValue
 
 
-class LogoMaskerTvn(
-    animationHelper: AnimationHelper,
-    private val bottom: Float = 10f, private val left: Float = 32f
-) {
+class LogoMaskerTvn(animationHelper: AnimationHelper) {
 
     private val animationSpeed = 150
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Logo Masker")
+        Log.i(LOGGING_TAG, " Logo Masker")
         startAnimator(view)
-        val logoMasker = view.findViewById<ConstraintLayout>(R.id.logoMaskerTvn)
-        val params = view.layoutParams
-        val updatedParams = ConstraintLayout.LayoutParams(params)
-
-        updatedParams.setMargins(
-            getDpValue(left, view),
-            updatedParams.topMargin,
-            updatedParams.rightMargin,
-            getDpValue(bottom, view)
-        )
-        updatedParams.bottomToBottom = 1
-        logoMasker.layoutParams = updatedParams
     }
 
     private fun startAnimator(view: View) {

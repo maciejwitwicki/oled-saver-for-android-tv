@@ -15,7 +15,7 @@ class ThinStripeMasker(animationHelper: AnimationHelper) {
         MaskerAnimatorManager(animationHelper, rotationDegree = 0.5f)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Thin Stripe Masker")
+//        Log.i(LOGGING_TAG, "Run Thin Stripe Masker")
         startAnimator(view)
     }
 

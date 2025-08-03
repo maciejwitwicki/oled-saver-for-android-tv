@@ -18,7 +18,7 @@ class MaskingTitle(animationHelper: AnimationHelper, private val text: String) {
     )
 
     fun show(view: View) {
-        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
+//        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
         startAnimator(view)
 
         val textView = view.findViewById<TextView>(R.id.maskingTitleTextView)

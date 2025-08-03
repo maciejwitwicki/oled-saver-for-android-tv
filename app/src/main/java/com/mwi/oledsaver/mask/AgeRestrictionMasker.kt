@@ -14,7 +14,7 @@ class AgeRestrictionMasker(animationHelper: AnimationHelper) {
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, "Run Age restriction Masker")
+        Log.i(LOGGING_TAG, "Age restriction Masker")
         startAnimator(view)
     }
 

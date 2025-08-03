@@ -11,7 +11,7 @@
     android:alpha="1"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:showIn="@layout/masking_fragment">
+    >
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/boldStripeBackground"

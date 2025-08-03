@@ -34,6 +34,7 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
     }
 
     fun scheduleNextAlarmExecution(delay: AlarmDelay) {
+        cancelNextExecution()
         val alarmTimeMillis = getNextAlarmTimeMillis(delay)
         val alarmDate = Instant.ofEpochMilli(alarmTimeMillis)
             .atZone(ConfigProvider.TIME_ZONE)
