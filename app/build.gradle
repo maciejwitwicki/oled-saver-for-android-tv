@@ -26,7 +26,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationner "androidx.test.ner.AndroidJUnitRunner"
 
     }
 
