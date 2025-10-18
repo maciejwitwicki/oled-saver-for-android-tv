@@ -1,11 +1,9 @@
 package com.mwi.oledsaver.mask
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.imageview.ShapeableImageView
-import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.R
 import com.mwi.oledsaver.animation.AnimationHelper
 import com.mwi.oledsaver.animation.MaskerAnimatorManager
@@ -13,7 +11,8 @@ import com.mwi.oledsaver.mask.LayoutUtils.getDpValue
 
 class BoldStripeMasker(
     animationHelper: AnimationHelper,
-    private val marginRight: Int = 130,
+    private val marginStart: Float = 200f,
+    private val marginRight: Float = 130f,
     private val bottom: Float = 58f,
     private val height: Float = 90f
 ) {
@@ -24,14 +23,14 @@ class BoldStripeMasker(
     )
 
     fun mask(view: View) {
-//        Log.i(LOGGING_TAG, "Run Bold Stripe Masker")
         startAnimator(view)
 
         val layout = view.findViewById<ConstraintLayout>(R.id.boldStripeMasker)
         val params = layout.layoutParams
         when (params) {
             is ViewGroup.MarginLayoutParams -> {
-                params.marginEnd = marginRight
+                params.marginStart = getDpValue(marginStart, layout)
+                params.marginEnd = getDpValue(marginRight, layout)
                 params.bottomMargin = getDpValue(bottom, layout)
                 params.height = getDpValue(height, layout)
             }
