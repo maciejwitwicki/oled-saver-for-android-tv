@@ -18,22 +18,13 @@ class MaskingFragmentTvp2 : Fragment(R.layout.masking_fragment_tvp2) {
     private val animationHelper = AnimationHelper()
 
     private val maskingTitle = MaskingTitle(animationHelper, "TVP2")
-    private val boldStripeMasker = BoldStripeMasker(animationHelper, 20, bottom = 20f, height = 100f)
-    private val logoMaskerTvp2 = LogoMaskerTvp2(animationHelper, bottom = 36f, left = 50f)
+    private val boldStripeMasker = BoldStripeMasker(animationHelper, marginStart = 150f, marginRight = 20f, bottom = 20f, height = 105f)
+    private val logoMaskerTvp2 = LogoMaskerTvp2(animationHelper)
     private val ageRestrictionMasker = AgeRestrictionMasker(animationHelper)
 
     // Using the activityViewModels() Kotlin property delegate from the
     // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: ItemViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.i(LOGGING_TAG, "[$name] onCreateView")
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.masking_fragment_tvp2, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

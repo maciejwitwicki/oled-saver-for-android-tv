@@ -26,15 +26,6 @@ class MaskingFragmentPolsat : Fragment(R.layout.masking_fragment_polsat) {
     // fragment-ktx artifact to retrieve the ViewModel in the activity scope.
     private val viewModel: ItemViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.i(LOGGING_TAG, "[$name] onCreateView")
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.masking_fragment_polsat, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
