@@ -13,14 +13,22 @@ import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.LOGGING_TAG
 import com.mwi.oledsaver.OledSaverApplication.OledSaverApplication.MASK_APP_CONFIG
 import kotlinx.coroutines.launch
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 
 class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handleLaunch()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        Log.i(LOGGING_TAG, "MainActivity - onNewIntent called")
+        handleLaunch()
+    }
+
+    private fun handleLaunch() {
 
         StrictMode.setVmPolicy(
             VmPolicy.Builder(StrictMode.getVmPolicy())
@@ -43,8 +51,9 @@ class MainActivity : FragmentActivity() {
 
         lifecycleScope.launch {
             settings.started.collect { started ->
-                if (MASK_APP_CONFIG.isEnabled(started = started)                    ) {
-                    Log.i(LOGGING_TAG, "MainActivity - started")
+                if (MASK_APP_CONFIG.isEnabled(started = started)) {
+                    Log.i(LOGGING_TAG, "MainActivity - conditions met, starting MaskerActivity")
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                     startActivity(intent)
                     settings.setStartedDate(Instant.now())
                     finish()
@@ -56,7 +65,5 @@ class MainActivity : FragmentActivity() {
 
 
         }
-
-
     }
 }
