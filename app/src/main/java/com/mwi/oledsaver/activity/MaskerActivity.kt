@@ -63,6 +63,7 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
                 .collect { index ->
                     navigationManager =
                         NavigationManager(settings, index, navHostFragment.navController)
+                    navigationManager.navigateToMasker()
                 }
 
         }
@@ -153,12 +154,12 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
     }
 
     private fun handleDismissEvent(event: DismissMaskerEvent) {
-        exitFragmentDisplayed = false
-        navigationManager.navigateToMasker()
-        dismissMasker(event.delay)
         val settings = (application as OledSaverApplication).settingsRepository
         lifecycleScope.launch {
+            Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Dismissing masker, clearing settings.startedDate")
+            exitFragmentDisplayed = false
             settings.setStartedDate(null)
+            dismissMasker(event.delay)
         }
     }
 

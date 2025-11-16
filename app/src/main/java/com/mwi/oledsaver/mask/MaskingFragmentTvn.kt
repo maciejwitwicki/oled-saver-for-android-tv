@@ -34,6 +34,12 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.i(LOGGING_TAG, "$name onViewCreated")
+
+        if (activity?.isFinishing == true) {
+            Log.w(LOGGING_TAG, "$name Activity is finishing, skipping initialization")
+            return
+        }
+
         startAllAnimations(view)
 
         viewModel.elementsState.observe(viewLifecycleOwner) { state ->
@@ -48,6 +54,10 @@ class MaskingFragmentTvn : Fragment(R.layout.masking_fragment_tvn) {
 
         Log.i(LOGGING_TAG, "$name onResume")
 
+        if (activity?.isFinishing == true) {
+            Log.w(LOGGING_TAG, "$name Activity is finishing, skipping initialization")
+            return
+        }
 
         // Disable back press
         requireView().setFocusableInTouchMode(true)
