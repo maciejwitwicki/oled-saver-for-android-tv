@@ -18,6 +18,23 @@ org.gradle.java.home=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/H
 org.gradle.java.home=D:/jdk/temurin-21
 ```
 
+## Operating hours override (emulator only)
+
+Masking runs between 07:10 and 12:00 (Europe/Warsaw). To test at any time of day, add to
+`local.properties`:
+
+```properties
+# window always contains the current time
+oledsaver.operatingHours=now
+# or an explicit window
+oledsaver.operatingHours=14:00-18:30
+```
+
+The value is compiled into **debug** builds only, and applied at runtime only when the
+build runs on an **emulator**. A debug build installed on the TV, and every release build,
+keeps the 07:10-12:00 window. The effective window is logged at startup as
+`ConfigProvider - operating hours: ...`.
+
 ## Debugging
 
 View logs from connected device:

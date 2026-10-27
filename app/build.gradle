@@ -1,14 +1,30 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    // for fragments navigation
-    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.21'
+    // for fragments navigation (version comes from the root buildscript classpath)
+    id 'org.jetbrains.kotlin.plugin.serialization'
 
     id "com.google.protobuf"
 }
 
+// Optional operating-hours override for debug builds, e.g. in local.properties:
+//   oledsaver.operatingHours=now          -> window always contains the current time
+//   oledsaver.operatingHours=14:00-18:30  -> explicit window
+// Applied at runtime only when the debug build runs on an emulator (see OperatingHours.kt).
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+def operatingHoursOverride = project.findProperty('oledsaver.operatingHours') ?:
+        localProps.getProperty('oledsaver.operatingHours', '')
+
 android {
     compileSdk = 34
+
+    buildFeatures {
+        buildConfig = true
+    }
     buildToolsVersion '35.0.0'
 
     compileOptions {
@@ -31,9 +47,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField 'String', 'OPERATING_HOURS_OVERRIDE', "\"${operatingHoursOverride}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'OPERATING_HOURS_OVERRIDE', '""'
         }
     }
     namespace 'com.mwi.oledsaver'
@@ -86,6 +106,9 @@ dependencies {
     // other
     def eventbus_version = '3.3.1'
     implementation "org.greenrobot:eventbus:$eventbus_version"
+
+    // unit tests
+    testImplementation 'junit:junit:4.13.2'
 
     // instrumented tests
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'

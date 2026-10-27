@@ -1,2 +1,12 @@
+// Plugin markers (if any plugin is ever requested with a version in a plugins {} block)
+// resolve from Google and Maven Central only. The Gradle Plugin Portal is intentionally
+// not listed so the build also works in environments that block plugins.gradle.org.
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 include ':app'
 rootProject.name = "OLED Savfer for android TV"

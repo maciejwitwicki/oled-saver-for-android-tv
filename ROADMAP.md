@@ -78,6 +78,10 @@ Fix these before new features; each one changes current behaviour silently.
 
 ## Done
 
+- [x] **Operating hours overridable for emulator testing.** `OperatingHours` holds the
+      07:10-12:00 default; `oledsaver.operatingHours=now` (or `HH:mm-HH:mm`) in
+      `local.properties` is compiled into debug builds and applied only on an emulator.
+      Groundwork for the user-facing settings screen. _(working tree, not yet committed)_
 - [x] **Boot autostart never fired.** `BootBroadcastReceiver` compared the action against
       the bare string `"BOOT_COMPLETED"`. Now matches `Intent.ACTION_BOOT_COMPLETED` and
       `QUICKBOOT_POWERON`, and clears a stale "started today" flag before launching

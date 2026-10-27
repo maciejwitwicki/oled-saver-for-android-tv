@@ -9,9 +9,15 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class ConfigProvider : ApplicationConfig {
+class ConfigProvider(
+    private val operatingHours: OperatingHours = OperatingHours.fromEnvironment()
+) : ApplicationConfig {
 
     private val forceEnabled = false
+
+    init {
+        Log.i(LOGGING_TAG, "ConfigProvider - operating hours: $operatingHours")
+    }
 
     override fun isEnabled(logDebug: Boolean, started: Instant): Boolean {
         if (forceEnabled)
@@ -54,11 +60,7 @@ class ConfigProvider : ApplicationConfig {
     }
 
     override fun getOperatingRange(): Range<ZonedDateTime> {
-        val start = getNow().withHour(7)
-            .withMinute(10).withSecond(0)
-        val end = getNow().withHour(12)
-            .withMinute(0).withSecond(0)
-
+        val (start, end) = operatingHours.boundsAt(getNow())
         return Range(start, end)
     }
 
