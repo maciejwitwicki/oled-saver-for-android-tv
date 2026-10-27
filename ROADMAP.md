@@ -21,10 +21,15 @@ Fix these before new features; each one changes current behaviour silently.
 - [ ] **"Started today" only compares day of month.** `ConfigProvider.wasStartedToday`
       compares `dayOfMonth` only, so a start date from an earlier month with the same
       day number counts as today and the masker skips that day. Compare `LocalDate`.
-- [ ] **`settings.started.collect` re-enters itself in `MainActivity`.** Writing
-      `setStartedDate()` inside the collector makes DataStore re-emit, and the second
-      pass calls `finishAndRemoveTask()` right after `finish()`. Use `first()` for the
-      one-shot decision. Covered by `MainActivityStartedCollectTest`.
+- [ ] **Restored task shows the snooze screen instead of the masks.** Pressing Back
+      pushes `ExitFragment` onto the nav back stack. If the activity then goes to the
+      background (Home, input switch) the task is parked in that state, and every
+      restore path (launcher, recents, reorder-to-front) shows it as left, because the
+      only `navigateToMasker()` call lives in `onCreate`. Fix: in `MaskerActivity`,
+      pop back to the masker in `onStop` when the exit screen is showing, navigate to
+      the masker in `onNewIntent`, and derive `exitFragmentDisplayed` from the current
+      nav destination (or save it) so a process-restore does not open a second exit
+      screen on the next Back.
 - [ ] **Dead / duplicated work.** `ExitFragment.dismiss()` launches an empty
       coroutine; `MaskingFragmentPolsat` restarts all animations on every visibility
       change, stacking infinite animators.
@@ -40,6 +45,9 @@ Fix these before new features; each one changes current behaviour silently.
 - [ ] **Move user-facing text to string resources.** Snooze button labels, the toast
       and `AlarmDelay.message` are hard-coded Polish. Unblocks an English variant for
       a store listing.
+- [ ] **Exit screen timeout.** If no snooze option is chosen within ~30 s, return to
+      the masker automatically. Covers an accidental Back on the remote and keeps the
+      task from being parked on the exit screen (see the restore bug above).
 - [ ] **On-screen status line.** Current channel name, time until the window ends and
       a snooze hint. The `MaskingTitle` view already exists; mostly wiring.
 
@@ -74,4 +82,12 @@ Fix these before new features; each one changes current behaviour silently.
 
 ## Done
 
-_Nothing yet. Move items here with a short note and commit reference._
+- [x] **Snooze survives relaunches (`disabled_until`).** The dismiss deadline used to live
+      only in AlarmManager; any MainActivity launch replaced it with the one-minute
+      heartbeat and, inside the window, showed the masker again. Now persisted in the
+      proto `Settings`, honoured by `ConfigProvider.decide()`, the alarm is re-armed at
+      the deadline, and a launch during the window shows a toast "Wygaszacz wyłączony do
+      HH:mm". Covered by `DisabledUntilTest` and `MainActivityDisabledTest`.
+      _(working tree, not yet committed)_
+- [x] **`settings.started.collect` re-entry in `MainActivity`.** Replaced with one-shot
+      `first()` reads as part of the change above. _(working tree, not yet committed)_

@@ -156,8 +156,11 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
     private fun handleDismissEvent(event: DismissMaskerEvent) {
         val settings = (application as OledSaverApplication).settingsRepository
         lifecycleScope.launch {
-            Log.i(LOGGING_TAG, "${this.javaClass.simpleName} Dismissing masker, clearing settings.startedDate")
+            Log.i(LOGGING_TAG, "[$name] Dismissing masker for ${event.delay}")
             exitFragmentDisplayed = false
+            val until = maskingAlarmManager.scheduleNextAlarmExecution(event.delay)
+            // Persist the deadline so a relaunch during the window stays off (and says so).
+            settings.setDisabledUntil(until)
             settings.setStartedDate(null)
             dismissMasker(event.delay)
         }
@@ -165,7 +168,6 @@ class MaskerActivity : FragmentActivity(R.layout.activity_masker) {
 
     private fun dismissMasker(delay: AlarmDelay) {
         Toast.makeText(this, "Odkładanie na ${delay.message}", Toast.LENGTH_SHORT).show()
-        maskingAlarmManager.scheduleNextAlarmExecution(delay)
         finish()
     }
 }

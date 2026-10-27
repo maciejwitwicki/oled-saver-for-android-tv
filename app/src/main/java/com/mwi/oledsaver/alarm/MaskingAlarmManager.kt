@@ -17,14 +17,15 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
 
+    /** Prepares the alarm manager and pending intent. Does not schedule anything. */
     fun initialize(context: Context?) {
         this.pendingIntent = setPendingIntent(context)
-        this.scheduleNextExecution(context)
+        getAlarmManager(context)
         Log.i(LOGGING_TAG, "[$name] initialize")
     }
 
-    fun scheduleNextExecution(context: Context?) {
-        getAlarmManager(context).cancel(pendingIntent)
+    /** Re-arms the regular one-minute heartbeat. */
+    fun scheduleNextExecution() {
         scheduleNextAlarmExecution(AlarmDelay.DELAY_1_MIN)
     }
 
@@ -33,14 +34,19 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
         alarmManager.cancel(pendingIntent)
     }
 
-    fun scheduleNextAlarmExecution(delay: AlarmDelay) {
+    /** Schedules the next launch after [delay] and returns the instant it was scheduled for. */
+    fun scheduleNextAlarmExecution(delay: AlarmDelay): Instant {
+        val alarmTime = Instant.ofEpochMilli(getNextAlarmTimeMillis(delay))
+        scheduleAt(alarmTime, "for $delay")
+        return alarmTime
+    }
+
+    /** Replaces any pending alarm with one firing at [instant]. */
+    fun scheduleAt(instant: Instant, reason: String = "") {
         cancelNextExecution()
-        val alarmTimeMillis = getNextAlarmTimeMillis(delay)
-        val alarmDate = Instant.ofEpochMilli(alarmTimeMillis)
-            .atZone(ConfigProvider.TIME_ZONE)
-            .format(ConfigProvider.TIME_FORMAT)
-        Log.i(LOGGING_TAG, "scheduling Intent broadcast for $delay at $alarmDate")
-        alarmManager.set(RTC, alarmTimeMillis, pendingIntent)
+        val alarmDate = instant.atZone(ConfigProvider.TIME_ZONE).format(ConfigProvider.TIME_FORMAT)
+        Log.i(LOGGING_TAG, "scheduling Intent broadcast $reason at $alarmDate")
+        alarmManager.set(RTC, instant.toEpochMilli(), pendingIntent)
     }
 
     private fun getAlarmManager(context: Context?): AlarmManager {

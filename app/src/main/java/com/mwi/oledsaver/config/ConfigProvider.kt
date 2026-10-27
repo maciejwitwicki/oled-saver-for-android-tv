@@ -31,6 +31,13 @@ class ConfigProvider : ApplicationConfig {
         return now.isAfter(start) && now.isBefore(end)
     }
 
+    override fun decide(started: Instant, disabledUntil: Instant?): LaunchDecision {
+        if (disabledUntil != null && getNow().toInstant().isBefore(disabledUntil)) {
+            return LaunchDecision.Disabled(disabledUntil)
+        }
+        return if (isEnabled(started = started)) LaunchDecision.Start else LaunchDecision.Skip
+    }
+
     private fun logDates(now: ZonedDateTime, start: ZonedDateTime, end: ZonedDateTime) {
         val nowFormatted = now.format(TIME_FORMAT)
         val startFormatted = start.format(TIME_FORMAT)
@@ -68,6 +75,15 @@ class ConfigProvider : ApplicationConfig {
     companion object {
         val TIME_ZONE: ZoneId = ZoneId.of("Europe/Warsaw")
         val TIME_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        private val TIME_ONLY: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        private val DAY_AND_TIME: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM HH:mm")
+
+        /** "07:10" if [instant] falls on today's date in [TIME_ZONE], otherwise "28.10 07:10". */
+        fun formatForUser(instant: Instant): String {
+            val zoned = instant.atZone(TIME_ZONE)
+            val sameDay = zoned.toLocalDate() == ZonedDateTime.now(TIME_ZONE).toLocalDate()
+            return zoned.format(if (sameDay) TIME_ONLY else DAY_AND_TIME)
+        }
     }
 
 }

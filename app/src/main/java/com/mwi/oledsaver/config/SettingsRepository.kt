@@ -32,6 +32,15 @@ class SettingsRepository(private val context: Context) {
         }
 
 
+    /** Null when no dismissal is active (field unset). */
+    val disabledUntil: Flow<Instant?> = settingsFlow
+        .map { settings ->
+            val value = if (settings.hasDisabledUntil())
+                Instant.ofEpochSecond(settings.disabledUntil.seconds) else null
+            Log.i(LOGGING_TAG, "SettingsRepository - retrieving disabled until: $value")
+            value
+        }
+
     val maskIndex: Flow<Int> = settingsFlow
         .map { settings ->
             Log.i(
@@ -48,6 +57,20 @@ class SettingsRepository(private val context: Context) {
             currentSettings.toBuilder()
                 .setMaskIndex(newIndex)
                 .build()
+        }
+    }
+
+    suspend fun setDisabledUntil(date: Instant?) {
+        Log.i(LOGGING_TAG, "SettingsRepository - saving disabled until: $date")
+
+        context.settingsDataStore.updateData { currentSettings ->
+            val builder = currentSettings.toBuilder()
+            if (date != null) {
+                builder.setDisabledUntil(Timestamp.newBuilder().setSeconds(date.epochSecond))
+            } else {
+                builder.clearDisabledUntil()
+            }
+            builder.build()
         }
     }
 

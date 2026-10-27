@@ -8,4 +8,6 @@ import "google/protobuf/timestamp.proto";
 message Settings {
   google.protobuf.Timestamp started = 1;
   int32 mask_index = 2;
+  // Set when the user dismisses the masker; masking stays off until this instant.
+  google.protobuf.Timestamp disabled_until = 3;
 }
