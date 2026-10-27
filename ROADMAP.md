@@ -14,10 +14,6 @@ Effort guide:
 
 Fix these before new features; each one changes current behaviour silently.
 
-- [ ] **Boot autostart never fires.** `BootBroadcastReceiver` compares the action
-      against the bare string `"BOOT_COMPLETED"`, but the system sends
-      `"android.intent.action.BOOT_COMPLETED"`. Use `Intent.ACTION_BOOT_COMPLETED`
-      (and `android.intent.action.QUICKBOOT_POWERON`).
 - [ ] **"Started today" only compares day of month.** `ConfigProvider.wasStartedToday`
       compares `dayOfMonth` only, so a start date from an earlier month with the same
       day number counts as today and the masker skips that day. Compare `LocalDate`.
@@ -82,6 +78,11 @@ Fix these before new features; each one changes current behaviour silently.
 
 ## Done
 
+- [x] **Boot autostart never fired.** `BootBroadcastReceiver` compared the action against
+      the bare string `"BOOT_COMPLETED"`. Now matches `Intent.ACTION_BOOT_COMPLETED` and
+      `QUICKBOOT_POWERON`, and clears a stale "started today" flag before launching
+      MainActivity so a reboot during masking does not block the rest of the day.
+      Covered by `BootBroadcastReceiverTest`. _(working tree, not yet committed)_
 - [x] **Snooze survives relaunches (`disabled_until`).** The dismiss deadline used to live
       only in AlarmManager; any MainActivity launch replaced it with the one-minute
       heartbeat and, inside the window, showed the masker again. Now persisted in the
