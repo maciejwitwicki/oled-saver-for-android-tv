@@ -14,6 +14,20 @@ Effort guide:
 
 Fix these before new features; each one changes current behaviour silently.
 
+- [ ] **Stale "started today" flag blocks masking for the rest of the day.** The flag is a
+      persisted date written when the masker launches and cleared only by a dismiss. If the
+      masker dies without one (system kill, force-stop, Home + eviction) every later launch
+      reads "already started" and finishes. Observed on the phone emulator on 2026-10-28:
+      a force-stop at 12:04 left the flag set and no heartbeat showed the masker afterwards.
+      Fix: replace the persisted date with a process-local "masker alive" flag (set in
+      `MaskerActivity.onCreate`, cleared in `onDestroy`); a killed process takes it along, so
+      the next launch recovers by itself. The cron-spam guard keeps working because repeated
+      launches land in the same live process.
+- [ ] **`BootBroadcastReceiverTest` leaks device state.** The receiver launches a real
+      `MainActivity`, which under the emulator `now` override starts the masker and rewrites
+      the started flag after the test's cleanup has run. Seed `disabled_until` a few minutes
+      ahead in `@Before` so the launched activity takes the Disabled branch and writes
+      nothing, and clear both fields in `@After`.
 - [ ] **Restored task shows the snooze screen instead of the masks.** Pressing Back
       pushes `ExitFragment` onto the nav back stack. If the activity then goes to the
       background (Home, input switch) the task is parked in that state, and every
