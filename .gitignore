@@ -8,11 +8,11 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
+# build output of any module (root, app, core, future ones)
+build/
 /captures
 .externalNativeBuild
 .cxx
 local.properties
 .idea/
-app/build/
-/.kotlin/
+.kotlin/

@@ -1,11 +1,16 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    // for fragments navigation (version comes from the root buildscript classpath)
-    id 'org.jetbrains.kotlin.plugin.serialization'
-
-    id "com.google.protobuf"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization) // for fragments navigation routes
+    alias(libs.plugins.protobuf)
 }
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+def nav_version = "2.8.9"
 
 // Optional operating-hours override for debug builds, e.g. in local.properties:
 //   oledsaver.operatingHours=now          -> window always contains the current time
@@ -75,7 +80,10 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // Pure Kotlin logic (operating hours, launch decision, alarm timing)
+    implementation project(':core')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'

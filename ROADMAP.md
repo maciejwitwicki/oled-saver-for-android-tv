@@ -14,9 +14,6 @@ Effort guide:
 
 Fix these before new features; each one changes current behaviour silently.
 
-- [ ] **"Started today" only compares day of month.** `ConfigProvider.wasStartedToday`
-      compares `dayOfMonth` only, so a start date from an earlier month with the same
-      day number counts as today and the masker skips that day. Compare `LocalDate`.
 - [ ] **Restored task shows the snooze screen instead of the masks.** Pressing Back
       pushes `ExitFragment` onto the nav back stack. If the activity then goes to the
       background (Home, input switch) the task is parked in that state, and every
@@ -78,6 +75,11 @@ Fix these before new features; each one changes current behaviour silently.
 
 ## Done
 
+- [x] **Split into `:core` (pure Kotlin/JVM) and `:app` (Android).** Operating hours, launch
+      decision, alarm timing and snooze delays live in `:core` with JVM unit tests and build
+      with Maven Central only; `:app` is included only when an Android SDK is configured.
+      While moving, `wasStartedToday` now compares full dates in Europe/Warsaw (fixes the
+      day-of-month bug). _(working tree, not yet committed)_
 - [x] **Operating hours overridable for emulator testing.** `OperatingHours` holds the
       07:10-12:00 default; `oledsaver.operatingHours=now` (or `HH:mm-HH:mm`) in
       `local.properties` is compiled into debug builds and applied only on an emulator.

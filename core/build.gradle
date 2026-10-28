@@ -1,0 +1,25 @@
+// Pure Kotlin/JVM module: no Android SDK, no Google Maven repository.
+// Builds and tests with Maven Central (+ Gradle Plugin Portal for the Kotlin plugin) only:
+//   gradle :core:test
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}

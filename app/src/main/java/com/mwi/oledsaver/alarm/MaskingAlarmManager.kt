@@ -36,7 +36,7 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
 
     /** Schedules the next launch after [delay] and returns the instant it was scheduled for. */
     fun scheduleNextAlarmExecution(delay: AlarmDelay): Instant {
-        val alarmTime = Instant.ofEpochMilli(getNextAlarmTimeMillis(delay))
+        val alarmTime = AlarmTiming.nextAlarmTime(delay, configProvider)
         scheduleAt(alarmTime, "for $delay")
         return alarmTime
     }
@@ -63,36 +63,6 @@ class MaskingAlarmManager(private val configProvider: ConfigProvider) {
         )
         this.pendingIntent = pendingIntent
         return pendingIntent!!
-    }
-
-    private fun getNextAlarmTimeMillis(delay: AlarmDelay): Long {
-        return if (delay == AlarmDelay.DELAY_NEXT_DAY) {
-            getNextDayExecutionTimeMillis()
-        } else {
-            configProvider.getNow()
-                .plusMinutes(toMinutes(delay))
-                .toInstant()
-                .toEpochMilli()
-        }
-    }
-
-    private fun toMinutes(delay: AlarmDelay): Long {
-        return when (delay) {
-            AlarmDelay.DELAY_1_MIN -> 1
-            AlarmDelay.DELAY_5_MIN -> 5
-            AlarmDelay.DELAY_10_MIN -> 10
-            AlarmDelay.DELAY_1_H -> 60
-            AlarmDelay.DELAY_NEXT_DAY -> throw IllegalArgumentException("Next Day can't be parsed to minutes")
-        }
-    }
-
-    private fun getNextDayExecutionTimeMillis(): Long {
-        val now = configProvider.getNow()
-        val operatingRange = configProvider.getOperatingRange()
-        if (now.isBefore(operatingRange.lower)) {
-            return operatingRange.lower.toInstant().toEpochMilli()
-        }
-        return operatingRange.lower.plusDays(1).toInstant().toEpochMilli()
     }
 
 }

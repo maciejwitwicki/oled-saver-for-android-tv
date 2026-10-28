@@ -1,12 +1,30 @@
-// Plugin markers (if any plugin is ever requested with a version in a plugins {} block)
-// resolve from Google and Maven Central only. The Gradle Plugin Portal is intentionally
-// not listed so the build also works in environments that block plugins.gradle.org.
 pluginManagement {
     repositories {
-        google()
+        // Order matters: Google is last so that environments without access to
+        // dl.google.com never contact it for plugins that live on Maven Central / the Portal.
         mavenCentral()
+        gradlePluginPortal()
+        google()
     }
 }
 
-include ':app'
 rootProject.name = "OLED Savfer for android TV"
+
+// :core is pure Kotlin/JVM and always part of the build.
+include ':core'
+
+// :app needs the Android Gradle Plugin (Google Maven) and an Android SDK. It is included
+// only when an SDK location is known, or when forced with -PincludeAndroidApp=true, so that
+// `gradle :core:test` works in environments without Android tooling.
+def localProps = new Properties()
+def localPropsFile = new File(settingsDir, 'local.properties')
+if (localPropsFile.exists()) {
+    localPropsFile.withInputStream { localProps.load(it) }
+}
+def sdkDir = localProps.getProperty('sdk.dir') ?: System.getenv('ANDROID_HOME') ?: System.getenv('ANDROID_SDK_ROOT')
+def includeApp = providers.gradleProperty('includeAndroidApp').map { it.toBoolean() }.getOrElse(sdkDir != null)
+if (includeApp) {
+    include ':app'
+} else {
+    logger.lifecycle("No Android SDK configured: skipping :app (only :core is built). Use -PincludeAndroidApp=true to force.")
+}

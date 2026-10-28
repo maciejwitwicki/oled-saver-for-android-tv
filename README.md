@@ -1,5 +1,27 @@
 # OLED Saver for Android TV
 
+## Modules
+
+| Module | Kind | Needs |
+|---|---|---|
+| `:core` | pure Kotlin/JVM: operating hours, launch decision, alarm timing, snooze delays | JDK 17+, Maven Central, Gradle Plugin Portal |
+| `:app` | Android TV app: activities, fragments, DataStore, AlarmManager, animations | JDK 21, Android SDK, Google Maven (`dl.google.com`) |
+
+`:app` is only included in the build when an SDK location is known (`sdk.dir` in
+`local.properties`, `ANDROID_HOME` or `ANDROID_SDK_ROOT`). Without one, Gradle configures
+`:core` alone, so in an environment without Android tooling you can still run:
+
+```bash
+gradle :core:test          # unit tests for the logic
+gradle :core:build         # compile + test + jar
+```
+
+Force the Android module on or off with `-PincludeAndroidApp=true|false`.
+
+Rule of thumb: anything that does not import `android.*` or AndroidX belongs in `:core`.
+`:app` wraps it in thin adapters (e.g. `AndroidOperatingHours` reads `BuildConfig`/`Build`
+and hands a plain `OperatingHours` to `ConfigProvider`).
+
 ## Development Setup
 
 ### Java Home Configuration

@@ -1,7 +1,9 @@
 package com.mwi.oledsaver
 
 import android.app.Application
+import android.util.Log
 import com.mwi.oledsaver.alarm.MaskingAlarmManager
+import com.mwi.oledsaver.config.AndroidOperatingHours
 import com.mwi.oledsaver.config.ConfigProvider
 import com.mwi.oledsaver.config.SettingsRepository
 
@@ -13,7 +15,10 @@ class OledSaverApplication : Application() {
 
     companion object OledSaverApplication {
         const val LOGGING_TAG: String = "oled-saver"
-        val MASK_APP_CONFIG: ConfigProvider = ConfigProvider()
+        val MASK_APP_CONFIG: ConfigProvider = ConfigProvider(
+            operatingHours = AndroidOperatingHours.fromEnvironment(),
+            log = { Log.i(LOGGING_TAG, it) }
+        )
         val ALARM_MANAGER = MaskingAlarmManager(MASK_APP_CONFIG)
     }
 
