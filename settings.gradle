@@ -8,7 +8,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "OLED Savfer for android TV"
+rootProject.name = "OLED Saver for android TV"
 
 // :core is pure Kotlin/JVM and always part of the build.
 include ':core'
