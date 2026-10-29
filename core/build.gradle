@@ -1,12 +1,8 @@
 // Pure Kotlin/JVM module: no Android SDK, no Google Maven repository.
-// Builds and tests with Maven Central (+ Gradle Plugin Portal for the Kotlin plugin) only:
+// Builds and tests with Maven Central only (repositories are declared in settings.gradle):
 //   gradle :core:test
 plugins {
     alias(libs.plugins.kotlin.jvm)
-}
-
-repositories {
-    mavenCentral()
 }
 
 java {

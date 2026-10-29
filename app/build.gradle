@@ -5,11 +5,6 @@ plugins {
     alias(libs.plugins.protobuf)
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
 def nav_version = "2.8.9"
 
 // Optional operating-hours override for debug builds, e.g. in local.properties:

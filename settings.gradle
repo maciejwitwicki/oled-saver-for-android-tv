@@ -1,28 +1,95 @@
 pluginManagement {
+    // ---------------------------------------------------------------------------------------
+    // Offline bundle support (see sandbox/prepare-offline.sh and README "Sandbox builds").
+    //
+    // If offline/m2 exists, the build can run entirely from it. Mode selection:
+    //   -Poffline=true|false  or  OLED_OFFLINE=1|0   -> forced
+    //   bundle present + Maven Central or Google Maven unreachable -> offline
+    //   otherwise -> online (bundle ignored, even if present)
+    // ---------------------------------------------------------------------------------------
+    def bundleRepo = new File(settingsDir, 'offline/m2')
+    def bundleSdk = new File(settingsDir, 'offline/sdk')
+    def hostReachable = { String host ->
+        try {
+            new Socket().withCloseable { s -> s.connect(new InetSocketAddress(host, 443), 1500); true }
+        } catch (Exception ignored) {
+            false
+        }
+    }
+    def forced = settings.providers.gradleProperty('offline').orNull ?: System.getenv('OLED_OFFLINE')
+    boolean offline
+    String reason
+    if (forced != null) {
+        offline = forced.trim() in ['true', '1', 'yes']
+        reason = "forced (${offline ? 'offline' : 'online'})"
+    } else if (!bundleRepo.isDirectory()) {
+        offline = false
+        reason = 'no offline bundle present'
+    } else {
+        offline = !(hostReachable('repo.maven.apache.org') && hostReachable('dl.google.com'))
+        reason = offline ? 'bundle present and remote repositories unreachable' : 'remote repositories reachable'
+    }
+    gradle.ext.offlineMode = offline
+    gradle.ext.offlineRepo = bundleRepo
+    gradle.ext.offlineSdk = bundleSdk
+    gradle.ext.offlineReason = reason
+
     repositories {
-        // Order matters: Google is last so that environments without access to
-        // dl.google.com never contact it for plugins that live on Maven Central / the Portal.
-        mavenCentral()
-        gradlePluginPortal()
-        google()
+        if (offline) {
+            maven { name = 'offlineBundle'; url = bundleRepo.toURI() }
+        } else {
+            // Order matters: Google last, so hosts that only have Maven Central / the Portal
+            // still resolve everything :core needs without ever contacting dl.google.com.
+            mavenCentral()
+            gradlePluginPortal()
+            google()
+        }
+    }
+}
+
+dependencyResolutionManagement {
+    // Single source of truth for repositories; modules must not declare their own.
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        if (gradle.ext.offlineMode) {
+            maven { name = 'offlineBundle'; url = gradle.ext.offlineRepo.toURI() }
+        } else {
+            mavenCentral()   // first: everything :core needs lives here
+            google()         // AndroidX, Android Gradle Plugin, aapt2
+        }
     }
 }
 
 rootProject.name = "OLED Saver for android TV"
 
+logger.lifecycle("Dependency mode: ${gradle.ext.offlineMode ? 'OFFLINE (offline/m2)' : 'online'} - ${gradle.ext.offlineReason}")
+
 // :core is pure Kotlin/JVM and always part of the build.
 include ':core'
 
-// :app needs the Android Gradle Plugin (Google Maven) and an Android SDK. It is included
-// only when an SDK location is known, or when forced with -PincludeAndroidApp=true, so that
-// `gradle :core:test` works in environments without Android tooling.
-def localProps = new Properties()
+// :app needs the Android Gradle Plugin and an Android SDK. It is included when an SDK
+// location is known (local.properties, ANDROID_HOME, ANDROID_SDK_ROOT) or when the offline
+// bundle ships one (offline/sdk). Force with -PincludeAndroidApp=true|false.
 def localPropsFile = new File(settingsDir, 'local.properties')
+def localProps = new Properties()
 if (localPropsFile.exists()) {
     localPropsFile.withInputStream { localProps.load(it) }
 }
-def sdkDir = localProps.getProperty('sdk.dir') ?: System.getenv('ANDROID_HOME') ?: System.getenv('ANDROID_SDK_ROOT')
-def includeApp = providers.gradleProperty('includeAndroidApp').map { it.toBoolean() }.getOrElse(sdkDir != null)
+def configuredSdk = localProps.getProperty('sdk.dir') ?: System.getenv('ANDROID_HOME') ?: System.getenv('ANDROID_SDK_ROOT')
+def configuredSdkExists = configuredSdk != null && new File(configuredSdk).isDirectory()
+def bundleSdkExists = gradle.ext.offlineSdk.isDirectory()
+
+if (gradle.ext.offlineMode && bundleSdkExists && !configuredSdkExists) {
+    // The bundle was prepared on another machine: point sdk.dir at the bundled SDK here.
+    def sdkPath = gradle.ext.offlineSdk.absolutePath
+    def lines = localPropsFile.exists() ? localPropsFile.readLines().findAll { !it.trim().startsWith('sdk.dir=') } : []
+    lines << "sdk.dir=${sdkPath.replace('\\', '\\\\').replace(':', '\\:')}".toString()
+    localPropsFile.text = lines.join('\n') + '\n'
+    logger.lifecycle("Offline bundle: wrote sdk.dir=${sdkPath} to local.properties")
+    configuredSdkExists = true
+}
+
+def includeApp = providers.gradleProperty('includeAndroidApp').map { it.toBoolean() }.getOrElse(configuredSdkExists)
 if (includeApp) {
     include ':app'
 } else {

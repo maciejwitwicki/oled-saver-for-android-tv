@@ -22,6 +22,32 @@ Rule of thumb: anything that does not import `android.*` or AndroidX belongs in 
 `:app` wraps it in thin adapters (e.g. `AndroidOperatingHours` reads `BuildConfig`/`Build`
 and hands a plain `OperatingHours` to `ConfigProvider`).
 
+## Sandbox builds (no Google Maven, no SDK download)
+
+Some environments can reach Maven Central but not `dl.google.com` or the Android SDK site.
+For those, prepare a self-contained copy of the project on a machine with internet access:
+
+```bash
+sandbox/prepare-offline.sh              # defaults: --target-os linux --target-arch x86_64
+```
+
+It creates `offline/` (gitignored, roughly 400 MB): `m2/` with every Maven artifact the build
+needs (plugins, Kotlin compiler, AndroidX, Android Gradle Plugin, plus `aapt2`/`protoc` for the
+target OS), `sdk/` with the Android platform and build-tools for the target OS, and a
+`MANIFEST`. It ends with a self-check that builds from the bundle alone. Everything is staged
+in a temp dir and moved into place; a previous bundle is moved aside and removed only after
+the self-check passes.
+
+Then zip or copy the whole project directory, including `offline/`, into the sandbox and run
+plain `gradle build` there (Gradle 8.13+, JDK 17 for `:core`, JDK 21 for `:app`).
+`settings.gradle` switches to the bundle automatically when it is present and the remote
+repositories are unreachable, and writes `sdk.dir` for the bundled SDK into
+`local.properties`. Force the mode with `-Poffline=true|false` or `OLED_OFFLINE=1|0`.
+Instrumented tests still need a device or emulator.
+
+Re-run the script after changing dependency versions; `offline/MANIFEST` records the hash of
+the build files it was made from.
+
 ## Development Setup
 
 ### Java Home Configuration
