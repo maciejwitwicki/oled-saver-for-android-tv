@@ -18,7 +18,6 @@ class LogoMaskerTvn(animationHelper: AnimationHelper) {
     private val animator: MaskerAnimatorManager = MaskerAnimatorManager(animationHelper)
 
     fun mask(view: View) {
-        Log.i(LOGGING_TAG, " Logo Masker")
         startAnimator(view)
     }
 
